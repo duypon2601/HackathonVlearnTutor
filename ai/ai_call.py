@@ -70,12 +70,13 @@ def load_lesson(lid):
     here = os.path.dirname(os.path.abspath(__file__))
     reg = json.load(open(os.path.join(here, "lessons.json"), encoding="utf-8"))["lessons"]
     spec = reg[lid]
-    fx = json.load(open(os.path.join(BASE, "eval", "fixtures", spec["fixture"]), encoding="utf-8"))
+    fx = json.load(open(os.path.join(BASE, spec["fixture"]), encoding="utf-8"))
     base_q = open(os.path.join(here, "prompts", spec["prompt"]), encoding="utf-8").read().strip()
     return {"title": spec["title"], "sources": {"sources": fx["sources"]},
             "system": build_system(spec["allow"], spec["cite"]),
             "allow": spec["allow"], "base_question": base_q,
-            "tests": spec.get("tests", "tests.csv")}
+            "tests": spec.get("tests", "tests.csv"),
+            "strict_codes": spec.get("strict_codes", True)}
 
 
 def load_tests():
@@ -136,7 +137,10 @@ def _group(src, allow):
     return None
 
 
-def validate(parsed, allow):
+def validate(parsed, allow, strict=True):
+    """Kiem tra format-level (content do nguoi cham tren bang).
+    strict=True: doi evidence co ma doan that [Txx-NNN]/[slide] (data that).
+    strict=False: fixture cu (timestamp van ban chap nhan)."""
     """Kiem tra format-level (content do nguoi cham tren bang)."""
     errs = []
     if not isinstance(parsed, dict):
@@ -147,7 +151,7 @@ def validate(parsed, allow):
             errs.append("source la %r" % p.get("source"))
         if p.get("label") not in ("Required", "Helpful", "Taught-in-lesson"):
             errs.append("label la %r" % p.get("label"))
-        if not re.search(r"\[T\d{2}-\d+\]|\[slide", p.get("evidence", "") or "", re.I):
+        if strict and not re.search(r"\[T\d{2}-\d+\]|\[slide", p.get("evidence", "") or "", re.I):
             errs.append("evidence %r thieu ma doan that" % p.get("name", "?")[:30])
     qs = parsed.get("questions", []) or []
     if not parsed.get("refusal"):
@@ -173,17 +177,32 @@ def validate(parsed, allow):
     return errs
 
 
-def run_case(call_fn, provider, model, sources, row, allow, delay=3, system=None, prefix="api"):
+def validate_warnings(parsed):
+    """Canh bao chat luong (khong fail validation): phu prereq, trung stem."""
+    warns = []
+    if parsed.get("refusal"):
+        return warns
+    qs = parsed.get("questions", []) or []
+    if qs and len({q.get("prereq") for q in qs}) < min(2, len(qs)):
+        warns.append("cac cau hoi trung 1 prereq — phu song kem (nhu T06 live)")
+    stems = [q.get("stem", "") for q in qs]
+    if len(set(stems)) < len(stems):
+        warns.append("trung stem cau hoi")
+    return warns
+
+
+def run_case(call_fn, provider, model, sources, row, allow, delay=3, system=None, prefix="api", strict=True):
     prompt = build_prompt(sources, row["prompt"], system)
     raw = call_fn(prompt)
     try:
         parsed = json.loads(raw)
     except Exception:
         parsed = {"_parse_error": True, "_raw_head": raw[:300]}
-    errs = validate(parsed, allow)
+    errs = validate(parsed, allow, strict)
     out = {"id": row["id"], "prompt": row["prompt"], "sources_mode": "api-full-context",
            "provider": provider, "model": model, "raw_text": raw, "parsed": parsed,
            "validation": {"ok": not errs, "errors": errs},
+           "warnings": validate_warnings(parsed),
            "expected": row["expected"], "hard_test": row["hard_test"] if "hard_test" in row else row.get("data_ref", "")}
     path = os.path.join(TRACES, "%s-%s.json" % (prefix, row["id"]))
     with open(path, "w", encoding="utf-8") as f:
@@ -248,6 +267,7 @@ def main(argv):
         call_fn = functools.partial(call_api, key)
         model = MODEL
     n_fail = 0
+    strict = spec.get("strict_codes", True)
     for row in tests:
         if row["id"] not in run_ids:
             continue
@@ -255,7 +275,7 @@ def main(argv):
             continue
         try:
             out = run_case(call_fn, provider, model, sources, row, allow,
-                           system=system, prefix=prefix)
+                           system=system, prefix=prefix, strict=strict)
             n_fail += 0 if out["validation"]["ok"] else 1
         except Exception as e:
             print("[%s] ERROR: %s" % (row["id"], e))

@@ -140,8 +140,6 @@ class Handler(SimpleHTTPRequestHandler):
         if not key:
             return self._json(502, {"ok": False, "error": "THIEU KEY (set DEEPSEEK_API_KEY)",
                                     "fallback": "frontend dung Prep cache da validate"})
-        sources = AI.load_sources()
-        allow = [s["id"] for s in sources["sources"]]
         try:
             if path == "/api/prep":
                 # Prep AI live theo lesson trong registry (ai/lessons.json).
@@ -160,26 +158,43 @@ class Handler(SimpleHTTPRequestHandler):
                 sources, allow = spec["sources"], spec["allow"]
                 prompt = AI.build_prompt(sources, spec["base_question"], spec["system"])
                 name, label = "prep-" + lesson, lesson
+                strict = spec.get("strict_codes", True)
             else:
+                # Golden Cxx chay tren fixture L6 (registry) — khong phu thuoc file cu.
                 data = self._body()
                 row = _tests().get(data.get("case_id", ""))
                 if not row or row["id"] in AI.SKIP_IDS:
                     return self._json(400, {"ok": False, "error": "case_id khong hop le"})
-                prompt = AI.build_prompt(sources, row["prompt"])
+                l6 = AI.load_lesson("L6")
+                sources, allow = l6["sources"], l6["allow"]
+                prompt = AI.build_prompt(sources, row["prompt"], l6["system"])
                 name, label = row["id"], row["id"]
-            raw = AI.call_deepseek(key, prompt)
-            try:
-                parsed = json.loads(raw)
-            except Exception:
-                parsed = {"_parse_error": True, "_raw_head": raw[:300]}
-            errs = AI.validate(parsed, allow)
-            trace = {"transport": "server-live", "model": AI.DS_MODEL,
-                     "case": label, "prompt": prompt, "raw_text": raw,
-                     "parsed": parsed, "validation": {"ok": not errs, "errors": errs}}
-            tpath = _trace(name, trace)
+                strict = l6.get("strict_codes", True)
+            # AI nondeterministic: rot validate format -> goi lai (toi da 3 lan),
+            # tra ve ban PASS dau tien. Luu trace moi lan thu (trung thuc).
+            errs, parsed, raw, tpath, attempt = ["chua goi AI"], None, "", None, 0
+            for attempt in (1, 2, 3):
+                try:
+                    raw = AI.call_deepseek(key, prompt)
+                except Exception as e:
+                    errs = ["AI call that bai (lan %d): %s" % (attempt, e)]
+                    continue
+                try:
+                    parsed = json.loads(raw)
+                except Exception:
+                    parsed = {"_parse_error": True, "_raw_head": (raw or "")[:300]}
+                errs = AI.validate(parsed, allow, strict)
+                trace = {"transport": "server-live", "model": AI.DS_MODEL,
+                         "case": label, "attempt": attempt,
+                         "prompt": prompt, "raw_text": raw,
+                         "parsed": parsed, "validation": {"ok": not errs, "errors": errs}}
+                tpath = _trace("%s-r%d" % (name, attempt), trace)
+                if not errs:
+                    break
             return self._json(200 if not errs else 422,
                               {"ok": not errs, "errors": errs, "data": parsed,
-                               "trace": os.path.basename(tpath)})
+                               "attempts": attempt,
+                               "trace": os.path.basename(tpath) if tpath else None})
         except Exception as e:  # mang hong / rate-limit / het tien
             return self._json(502, {"ok": False, "error": "AI call that bai: %s" % e,
                                     "fallback": "frontend dung Prep cache da validate"})
