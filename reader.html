@@ -24,6 +24,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="./vlearn_ready.css">
 
   <style>
     :root {
@@ -394,6 +395,11 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
       </button>
 
+      <!-- Trigger VLearn Ready Modal -->
+      <button type="button" onclick="openVLearnReady('D01')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-300 dark:border-amber-700 bg-amber-50 text-amber-900 dark:bg-amber-950/60 dark:text-amber-200 hover:bg-amber-100 shadow-xs transition-all" title="Kiểm tra độ sẵn sàng trước khi học">
+        <span>⚡ Sẵn sàng học?</span>
+      </button>
+
       <!-- Toggle Tutor Sidebar -->
       <button type="button" id="btn-toggle-tutor" onclick="toggleSidebarTutor()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-sm transition-all" title="Mở trợ lý VLearn Tutor">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
@@ -414,6 +420,22 @@
       </div>
     </div>
   </header>
+
+  <!-- VLEARN READY FLOATING BANNER -->
+  <div id="vr-reader-banner" class="vr-floating-banner">
+    <div class="flex items-center gap-2.5 text-xs">
+      <span class="px-2 py-0.5 rounded bg-blue-500/30 text-sky-300 font-bold uppercase text-[10px] tracking-wider border border-blue-400/30">VLearn Ready</span>
+      <span class="font-medium text-slate-100">💡 Trước khi học bài: Kiểm tra nhanh xem bạn đã nắm đủ kiến thức nền cho Buổi 1 chưa (2–3 phút).</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button type="button" onclick="openVLearnReady('D01')" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-1.5">
+        <span>⚡ Kiểm tra sẵn sàng</span>
+      </button>
+      <button type="button" onclick="document.getElementById('vr-reader-banner').remove()" class="text-slate-400 hover:text-white text-xs px-2 py-1 rounded transition-colors" title="Đóng thông báo">
+        ✕
+      </button>
+    </div>
+  </div>
 
   <!-- VIEWPORT BODY -->
   <div class="rd-viewport">
@@ -1003,5 +1025,6 @@
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     }
   </script>
+  <script src="./vlearn_ready.js"></script>
 </body>
 </html>
