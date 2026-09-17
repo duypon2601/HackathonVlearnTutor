@@ -7,6 +7,10 @@
   <title>Buổi 1: Day01 — VLearn Reader | VinUni AI Thực Chiến</title>
   <meta name="description"
     content="Trình đọc bài học VLearn: Slide bài giảng, ghi chú tương tác và trợ lý VLearn Tutor hỏi đáp trực tiếp trên tài liệu.">
+  <script>
+    var s = window.location.search || '';
+    window.location.replace('./index.html' + (s ? '#reader?' + s.replace(/^\?/, '') : '#reader'));
+  </script>
   <link rel="icon" href="./assets/images/img_7_favicon.ico" type="image/x-icon" sizes="32x32">
   <link rel="icon" href="./assets/images/img_8_vinuni-mark.svg">
 

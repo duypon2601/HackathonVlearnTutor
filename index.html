@@ -29480,9 +29480,340 @@
     }
   </style>
   <link rel="stylesheet" href="./vlearn_ready.css">
+  <!-- Reader SPA Styles -->
+  <style id="reader-spa-styles">
+
+    :root {
+      --vlearn-navy: #0f172a;
+      --vlearn-ice: #f8fafc;
+      --vu-blue-900: #0f223d;
+      --vu-blue-800: #1e3a8a;
+      --vu-blue-700: #1d4ed8;
+      --vu-blue-600: #2563eb;
+      --vu-blue-500: #3b82f6;
+      --vu-blue-100: #dbeafe;
+      --vu-blue-50: #eff6ff;
+      --vu-red-700: #b91c1c;
+      --vu-red-600: #dc2626;
+      --vu-neutral-0: #ffffff;
+      --vu-neutral-900: #0f172a;
+      --vu-border-subtle: #e2e8f0;
+      --vu-card-radius: 12px;
+      --vu-font-brand: 'Be Vietnam Pro', -apple-system, sans-serif;
+    }
+
+    .dark {
+      --vlearn-navy: #020617;
+      --vlearn-ice: #0b1120;
+      --vu-border-subtle: #1e293b;
+      --vu-neutral-0: #0f172a;
+      --vu-blue-50: #1e293b;
+    }
+
+    
+    body.in-reader {
+      overflow: hidden !important;
+      height: 100vh !important;
+    }
+    #app-view-reader {
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--vlearn-ice);
+      color: #0f172a;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    .dark #app-view-reader {
+      background-color: #090d16;
+      color: #f8fafc;
+    }
+        
+
+    .dark body {
+      background-color: #090d16;
+      color: #f8fafc;
+    }
+
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
+
+    /* Reader Header Bar */
+    .rd-topbar {
+      height: 56px;
+      min-height: 56px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--vu-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 40;
+    }
+
+    .dark .rd-topbar {
+      background: #0f172a;
+      border-bottom-color: #1e293b;
+    }
+
+    /* Mode Tabs */
+    .rd-part-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .rd-part-tab:hover {
+      color: #0f172a;
+      background: #f1f5f9;
+    }
+
+    .dark .rd-part-tab:hover {
+      color: #f8fafc;
+      background: #1e293b;
+    }
+
+    .rd-part-tab.active {
+      color: var(--vu-blue-700);
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+
+    .dark .rd-part-tab.active {
+      color: #38bdf8;
+      background: rgba(14, 165, 233, 0.15);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    /* Main Container Split */
+    .rd-viewport {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 56px);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Left Outline & Thumbnails Sidebar */
+    .rd-sidebar-left {
+      width: 290px;
+      min-width: 290px;
+      background: #ffffff;
+      border-right: 1px solid var(--vu-border-subtle);
+      display: flex;
+      flex-direction: column;
+      transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 30;
+    }
+
+    .dark .rd-sidebar-left {
+      background: #0f172a;
+      border-right-color: #1e293b;
+    }
+
+    .rd-sidebar-left.collapsed {
+      width: 0;
+      min-width: 0;
+      overflow: hidden;
+      border-right-width: 0;
+    }
+
+    /* Central Slide Presentation Stage */
+    .rd-center-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #e2e8f0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .dark .rd-center-stage {
+      background: #020617;
+    }
+
+    /* Floating Annotation and Zoom Toolbar */
+    .rd-anno-bar {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border-radius: 9999px;
+      padding: 4px 10px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 25;
+      transition: all 0.2s ease;
+    }
+
+    .dark .rd-anno-bar {
+      background: rgba(15, 23, 42, 0.95);
+      border-color: #334155;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .rd-tool-btn {
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      border: none;
+      background: transparent;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .dark .rd-tool-btn {
+      color: #94a3b8;
+    }
+
+    .rd-tool-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .dark .rd-tool-btn:hover {
+      background: #1e293b;
+      color: #f8fafc;
+    }
+
+    .rd-tool-btn.active {
+      background: var(--vu-blue-700);
+      color: #ffffff;
+    }
+
+    /* Slide Paper Viewport */
+    .rd-slide-canvas {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px;
+      overflow: auto;
+    }
+
+    .rd-slide-page {
+      width: 100%;
+      max-width: 860px;
+      max-height: calc(100vh - 170px);
+      aspect-ratio: 16 / 9.5;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      position: relative;
+      user-select: text;
+    }
+
+    .dark .rd-slide-page {
+      background: #1e293b;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px #334155;
+    }
+
+    /* Bottom Slide Rail */
+    .rd-bottom-rail {
+      height: 48px;
+      background: #ffffff;
+      border-top: 1px solid var(--vu-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 20;
+    }
+
+    .dark .rd-bottom-rail {
+      background: #0f172a;
+      border-top-color: #1e293b;
+    }
+
+    /* Right AI Tutor Sidebar */
+    .rd-sidebar-tutor {
+      width: 360px;
+      min-width: 360px;
+      background: #ffffff;
+      border-left: 1px solid var(--vu-border-subtle);
+      display: flex;
+      flex-direction: column;
+      transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 30;
+    }
+
+    .dark .rd-sidebar-tutor {
+      background: #0f172a;
+      border-left-color: #1e293b;
+    }
+
+    .rd-sidebar-tutor.collapsed {
+      width: 0;
+      min-width: 0;
+      overflow: hidden;
+      border-left-width: 0;
+    }
+
+    /* Tutor Chat Stream */
+    .tutor-bubble {
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      max-width: 88%;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  
+  </style>
 </head>
 
 <body class="__className_383d88 min-h-full flex flex-col bg-muted font-sans text-foreground" style="">
+  <div id="app-view-dashboard">
+
   <div hidden=""></div><!--$--><!--/$-->
   <next-route-announcer style="position: absolute;"></next-route-announcer>
   <div class="min-h-screen bg-[color:var(--vlearn-ice)] text-slate-900 dark:bg-slate-950 dark:text-slate-100">
@@ -29947,7 +30278,7 @@
                   </button>
                   <a data-analytics-id="student.dashboard.continue_learning"
                     class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-bold whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 bg-primary text-primary-foreground hover:bg-primary/80 h-[var(--vu-control-sm)] gap-1.5 px-[var(--vu-space-3)] has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&amp;_svg:not([class*='size-'])]:size-3.5"
-                    href="./reader.html?day=D01&part=day-slides-material_mttis0ey_q1ua59&page=1">Vào khóa học</a></div>
+                    href="#reader" onclick="showView('reader', 'D01', 'Buổi 1: Day01 — Giới thiệu Khóa học & Kiến trúc AI'); return false;">Vào khóa học</a></div>
               </div>
               <div
                 class="grid grid-cols-[minmax(0,1fr)] items-stretch gap-[var(--vu-space-6)] xl:grid-cols-[minmax(0,1.78fr)_minmax(0,1fr)]">
@@ -29985,7 +30316,7 @@
                             data-onboarding-target="course-lesson-selection">
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-[color:var(--vu-blue-700)] bg-[color:var(--vu-blue-50)] dark:border-[color:var(--vu-blue-300)] dark:bg-sky-950/50"
-                                href="./reader.html?day=D01&part=day-slides-material_mttis0ey_q1ua59&page=1"><span aria-hidden="true"
+                                href="#reader" onclick="showView('reader', 'D01', 'Buổi 1: Day01 — Giới thiệu Khóa học & Kiến trúc AI'); return false;"><span aria-hidden="true"
                                   class="grid h-4 w-4 shrink-0 place-items-center rounded-[var(--vu-radius-sm)] bg-[color:var(--vu-blue-700)] text-white dark:bg-sky-400 dark:text-slate-900"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -30001,7 +30332,7 @@
                                   học...</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D01');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-blue-100 hover:bg-blue-600 hover:text-white text-blue-800 dark:bg-blue-900/60 dark:text-blue-200 dark:hover:bg-blue-600 border border-blue-300 dark:border-blue-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Kiểm tra mức độ sẵn sàng trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>⚡ Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D02&title=Buổi 2: DAY02"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D02', 'Buổi 2: DAY02 — Docker & Containerization cho AI'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30011,7 +30342,7 @@
                                   DAY02</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D02', 'Buổi 2: DAY02');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D03&title=Buổi 3: DAY03"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D03', 'Buổi 3: DAY03 — Multi-container AI Stack & Bridge'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30021,7 +30352,7 @@
                                   DAY03</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D03', 'Buổi 3: DAY03');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D04&title=Buổi 4: DAY04"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D04', 'Buổi 4: DAY04 — FastAPI & Model Serving'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30031,7 +30362,7 @@
                                   DAY04</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D04', 'Buổi 4: DAY04');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D16&title=Buổi 16: MINI HACKATHON"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D16', 'Buổi 16: MINI HACKATHON'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30041,7 +30372,7 @@
                                   MINI HACKATHON</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D16', 'Buổi 16: MINI HACKATHON');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D05&title=Buổi 5: Day05"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D05', 'Buổi 5: Day05 — Async Ingestion & Background Task'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30051,7 +30382,7 @@
                                   Day05</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D05', 'Buổi 5: Day05');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D06&title=Buổi 6: Day06"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D06', 'Buổi 6: Day06 — Data Pipeline & Feature Extraction'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30061,7 +30392,7 @@
                                   Day06</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D06', 'Buổi 6: Day06');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D07&title=Buổi 7: Day07"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D07', 'Buổi 7: Day07 — Model Evaluation & Validation'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30071,7 +30402,7 @@
                                   Day07</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D07', 'Buổi 7: Day07');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D08&title=Buổi 8: Day08"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D08', 'Buổi 8: Day08 — Stream Processing & Kafka Architecture'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30081,7 +30412,7 @@
                                   Day08</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D08', 'Buổi 8: Day08');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D09&title=Buổi 9: Day09"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D09', 'Buổi 9: Day09 — Real-time Feature Store & Feast'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30091,7 +30422,7 @@
                                   Day09</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D09', 'Buổi 9: Day09');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-blue-600 bg-blue-50/60 dark:bg-blue-950/40"
-                                href="./reader.html?day=D10&title=Buổi 10: Day10-data-pipeline-observability"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D10', 'Buổi 10: Day10-data-pipeline-observability'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-sparkles h-4 w-4 shrink-0 text-blue-600"
@@ -30101,7 +30432,7 @@
                                   Day10-data-pipeline-observability</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D10', 'Buổi 10: Day10-data-pipeline-observability');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-blue-600 hover:bg-blue-700 text-white border border-blue-500 transition-all shrink-0 flex items-center gap-1 shadow-sm" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-300 fill-amber-300" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D11&title=Buổi 11: Day11-guardrails-ai-safety"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D11', 'Buổi 11: Day11-guardrails-ai-safety'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30111,7 +30442,7 @@
                                   Day11-guardrails-ai-safety</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D11', 'Buổi 11: Day11-guardrails-ai-safety');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D12&title=Buổi 12: Day12-cloud-services-and-deployment"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D12', 'Buổi 12: Day12-cloud-services-and-deployment'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30121,7 +30452,7 @@
                                   Day12-cloud-services-and-deployment</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D12', 'Buổi 12: Day12-cloud-services-and-deployment');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D13&title=Buổi 13: Day13-monitoring-logging-observability"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D13', 'Buổi 13: Day13-monitoring-logging-observability'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30131,7 +30462,7 @@
                                   Day13-monitoring-logging-observability</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D13', 'Buổi 13: Day13-monitoring-logging-observability');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D14&title=Buổi 14: Day14-ai-evaluation-benchmarking"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D14', 'Buổi 14: Day14-ai-evaluation-benchmarking'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30141,7 +30472,7 @@
                                   Day14-ai-evaluation-benchmarking</span><button type="button" onclick="event.preventDefault(); event.stopPropagation(); openVLearnReady('D14', 'Buổi 14: Day14-ai-evaluation-benchmarking');" class="ml-2 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700 transition-all shrink-0 flex items-center gap-1 shadow-xs" title="Chuẩn bị kiến thức nền trước khi học"><svg class="w-3 h-3 text-amber-500 fill-amber-500" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg><span>Chuẩn bị bài (Ready)</span></button></a></li>
                             <li><a
                                 class="flex items-center gap-[var(--vu-space-3)] border-l-2 px-[var(--vu-space-3)] py-[var(--vu-space-3)] transition-colors hover:bg-[color:var(--vu-surface-subtle)] focus-visible:ring-3 focus-visible:ring-[color:var(--vu-border-focus)] focus-visible:outline-none border-transparent"
-                                href="./reader.html?day=D15&title=Buổi 15: Day15-trien-khai-thuc-te-dinh-huong"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                href="#reader" onclick="showView('reader', 'D15', 'Buổi 15: Day15-trien-khai-thuc-te-dinh-huong'); return false;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round" stroke-linejoin="round"
                                   class="lucide lucide-circle h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -30351,693 +30682,869 @@
                         </path>
                         <circle cx="12" cy="8" r="6"></circle>
                       </svg>
-  <!-- ========================================================================= -->
-  <!-- VLEARN READY: SLIDE-OVER DRAWER COMPONENT & STYLES -->
-  <!-- ========================================================================= -->
-  <style id="vlearn-ready-drawer-styles">
-    #vr-drawer-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(4px);
-      z-index: 9998;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-    }
-    #vr-drawer-overlay.open {
-      display: block;
-      opacity: 1;
-    }
-
-    #vr-drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      max-width: 620px;
-      background: #ffffff;
-      z-index: 9999;
-      box-shadow: -12px 0 45px rgba(0, 0, 0, 0.25);
-      transform: translateX(100%);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Be Vietnam Pro", sans-serif;
-    }
-    .dark #vr-drawer {
-      background: #0f172a;
-      color: #f8fafc;
-      border-left: 1px solid #1e293b;
-    }
-    #vr-drawer.open {
-      transform: translateX(0);
-    }
-
-    .vr-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      font-size: 10px;
-      font-weight: 800;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-    .vr-tag--required {
-      background: #fee2e2;
-      color: #b91c1c;
-      border: 1px solid #fca5a5;
-    }
-    .dark .vr-tag--required {
-      background: #7f1d1d;
-      color: #fecaca;
-      border-color: #991b1b;
-    }
-    .vr-tag--helpful {
-      background: #fef3c7;
-      color: #b45309;
-      border: 1px solid #fcd34d;
-    }
-    .dark .vr-tag--helpful {
-      background: #78350f;
-      color: #fde68a;
-      border-color: #92400e;
-    }
-    .vr-tag--taught {
-      background: #dbeafe;
-      color: #1d4ed8;
-      border: 1px solid #93c5fd;
-    }
-    .dark .vr-tag--taught {
-      background: #1e3a8a;
-      color: #bfdbfe;
-      border-color: #2563eb;
-    }
-
-    .vr-item-box {
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 12px;
-      background: #f8fafc;
-      transition: all 0.2s ease;
-    }
-    .dark .vr-item-box {
-      border-color: #1e293b;
-      background: #1e293b/60;
-    }
-    .vr-item-box:hover {
-      border-color: #3b82f6;
-      background: #ffffff;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
-    }
-    .dark .vr-item-box:hover {
-      background: #1e293b;
-    }
-  </style>
-
-  <!-- Drawer Backdrop -->
-  <div id="vr-drawer-overlay" onclick="closeVLearnReadyDrawer()"></div>
-
-  <!-- Slide-over Drawer Element -->
-  <aside id="vr-drawer" role="dialog" aria-modal="true" aria-label="VLearn Ready Prep Card">
-    
-    <!-- Drawer Header -->
-    <div style="padding: 16px 20px; border-bottom: 1px solid #e2e8f0;" class="dark:border-slate-800 flex items-center justify-between gap-3">
-      <div style="display:flex; align-items:center; gap:10px;">
-        <span style="font-size:22px;">✨</span>
-        <div>
-          <div style="display:flex; align-items:center; gap:6px;">
-            <span class="vr-tag" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">VLearn Ready</span>
-            <span id="vr-drawer-badge" style="font-size:11px; font-weight:700; color:#059669;" class="dark:text-emerald-400">● Grounded 98%</span>
+  
+                      <h2 class="vu-type-label text-foreground">Cấp độ / XP</h2>
+                      <p class="vu-type-body-sm text-muted-foreground">Thăng cấp mỗi ngày</p>
+                    </section>
+                  </div>
+                </div>
+              </section>
+            </div>
           </div>
-          <h2 id="vr-drawer-lesson-title" style="margin:2px 0 0 0; font-size:15px; font-weight:800; color:#0f172a;" class="dark:text-white truncate max-w-[380px]">
-            Buổi 10: Data Pipeline Observability
-          </h2>
         </div>
       </div>
+    </main>
+  </div>
+  </div> <!-- /app-view-dashboard -->
 
-      <!-- Close Button -->
-      <button type="button" onclick="closeVLearnReadyDrawer()" style="background:transparent; border:none; color:#94a3b8; font-size:20px; cursor:pointer; padding:6px; border-radius:8px;" class="hover:text-slate-900 dark:hover:text-white" title="Đóng Drawer">
+  <!-- ========================================================================= -->
+  <!-- VLEARN READER VIEW (SPA VIEW) -->
+  <!-- ========================================================================= -->
+  <div id="app-view-reader" class="hidden">
+<!-- TOP HEADER -->
+  <header class="rd-topbar">
+    <div class="flex items-center gap-3">
+      <!-- Back to Dashboard -->
+      <a href="#dashboard" onclick="showView('dashboard'); return false;" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-blue-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-colors" title="Trở về Trang chủ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        <span>Trang chủ</span>
+      </a>
+
+      <div class="h-4 w-px bg-slate-300 dark:bg-slate-700"></div>
+
+      <!-- VLearn Logo & Breadcrumb -->
+      <a href="#dashboard" onclick="showView('dashboard'); return false;" class="flex items-center gap-2">
+        <img src="./assets/images/img_9_vlearn-lockup-color.svg" alt="VLearn" height="28" class="h-7 w-auto dark:hidden">
+        <img src="./assets/images/img_10_vlearn-lockup-white.svg" alt="VLearn" height="28" class="h-7 w-auto hidden dark:block">
+      </a>
+
+      <div class="hidden md:flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+        <span>/</span>
+        <span class="font-medium text-slate-700 dark:text-slate-300">L3-L4 - Khóa 4 Phase 1</span>
+        <span>/</span>
+        <span id="reader-breadcrumb-title" class="font-bold text-blue-700 dark:text-sky-300 bg-blue-50 dark:bg-sky-950/60 px-2 py-0.5 rounded border border-blue-200 dark:border-sky-800">Buổi 1: Day01</span>
+      </div>
+    </div>
+
+    <!-- Center Material Switcher (Slide / Video / Quiz) -->
+    <nav class="flex items-center gap-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-lg border border-slate-200 dark:border-slate-800">
+      <button type="button" id="tab-mode-slide" onclick="switchMaterial('slide')" class="rd-part-tab active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-presentation"><path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/></svg>
+        <span>Slide bài giảng</span>
+      </button>
+      <button type="button" id="tab-mode-video" onclick="switchMaterial('video')" class="rd-part-tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-film"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 8 6 4-6 4Z"/></svg>
+        <span>Video (37)</span>
+      </button>
+      <button type="button" onclick="alert('Tính năng Quiz đang mở trong tab Luyện tập!')" class="rd-part-tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        <span>Quiz</span>
+      </button>
+    </nav>
+
+    <!-- Header Right Actions -->
+    <div class="flex items-center gap-2">
+      <!-- Toggle Outline Sidebar -->
+      <button type="button" onclick="toggleSidebarLeft()" class="inline-flex items-center justify-center h-8 w-8 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors" title="Mục lục bài học & Slide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+      </button>
+
+      <!-- Trigger VLearn Ready Modal -->
+      <button type="button" onclick="openCurrentReady()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-300 dark:border-amber-700 bg-amber-50 text-amber-900 dark:bg-amber-950/60 dark:text-amber-200 hover:bg-amber-100 shadow-xs transition-all" title="Kiểm tra độ sẵn sàng trước khi học">
+        <span>⚡ Sẵn sàng học?</span>
+      </button>
+
+      <!-- Toggle Tutor Sidebar -->
+      <button type="button" id="btn-toggle-tutor" onclick="toggleSidebarTutor()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-sm transition-all" title="Mở trợ lý VLearn Tutor">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+        <span class="hidden sm:inline">VLearn Tutor</span>
+      </button>
+
+      <div class="h-4 w-px bg-slate-300 dark:bg-slate-700 mx-0.5"></div>
+
+      <!-- Theme Mode Switcher -->
+      <button type="button" onclick="toggleTheme()" class="inline-flex items-center justify-center h-8 w-8 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors" title="Đổi giao diện Sáng / Tối">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon dark:hidden"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden dark:block text-amber-400"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      </button>
+
+      <!-- User Avatar -->
+      <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[color:var(--vu-blue-900)] text-xs font-bold text-white shadow-xs">
+        T
+      </div>
+    </div>
+  </header>
+
+  <!-- VLEARN READY FLOATING BANNER -->
+  <div id="vr-reader-banner" class="vr-floating-banner">
+    <div class="flex items-center gap-2.5 text-xs">
+      <span class="px-2 py-0.5 rounded bg-blue-500/30 text-sky-300 font-bold uppercase text-[10px] tracking-wider border border-blue-400/30">VLearn Ready</span>
+      <span id="vr-reader-banner-text" class="font-medium text-slate-100">💡 Trước khi học bài: Kiểm tra nhanh xem bạn đã nắm đủ kiến thức nền cho Buổi 1 chưa (2–3 phút).</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button type="button" onclick="openCurrentReady()" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-1.5">
+        <span>⚡ Kiểm tra sẵn sàng</span>
+      </button>
+      <button type="button" onclick="document.getElementById('vr-reader-banner').remove()" class="text-slate-400 hover:text-white text-xs px-2 py-1 rounded transition-colors" title="Đóng thông báo">
         ✕
       </button>
     </div>
+  </div>
 
-    <!-- Mode Switcher Tabs (Prep Card vs Backend Pipeline API) -->
-    <div style="display:flex; border-bottom:1px solid #e2e8f0; padding:0 20px; background:#f8fafc;" class="dark:border-slate-800 dark:bg-slate-900/60">
-      <button type="button" id="vr-tab-card" onclick="setDrawerTabMode('card')" style="padding:10px 14px; font-size:12px; font-weight:700; color:#1d4ed8; border-bottom:2px solid #1d4ed8; background:transparent; border-top:none; border-left:none; border-right:none; cursor:pointer;">
-        📋 Thẻ Chuẩn Bị (Prep Card)
-      </button>
-      <button type="button" id="vr-tab-api" onclick="setDrawerTabMode('api')" style="padding:10px 14px; font-size:12px; font-weight:600; color:#64748b; border:none; background:transparent; cursor:pointer;" class="hover:text-slate-900 dark:hover:text-white">
-        🤖 Backend API & Grounding Engine
-      </button>
-    </div>
+  <!-- VIEWPORT BODY -->
+  <div class="rd-viewport">
 
-    <!-- Drawer Scrollable Content Area -->
-    <div style="flex:1; overflow-y:auto; padding:20px;" class="space-y-6">
-      
-      <!-- VIEW 1: PREP CARD (4 CORE BLOCKS) -->
-      <div id="vr-view-card" style="display:block;">
-        
-        <!-- BLOCK 1: 🎯 SAU BÀI NÀY BẠN NÊN CÓ THỂ (LEARNING OUTCOMES) -->
-        <section style="margin-bottom:22px;">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-            <h3 style="font-size:13px; font-weight:800; color:#0f172a; text-transform:uppercase; letter-spacing:0.02em; display:flex; align-items:center; gap:6px;" class="dark:text-white">
-              <span>🎯</span> Sau bài này bạn nên có thể
-            </h3>
-            <span style="font-size:11px; color:#64748b;">Tối đa 2-3 mục tiêu</span>
-          </div>
-          <div id="vr-outcomes-list" class="space-y-2">
-            <!-- Dynamically injected -->
-          </div>
-        </section>
-
-        <!-- BLOCK 2: 🧠 NÊN BIẾT TRƯỚC (PREREQUISITES 3-WAY CLASSIFICATION) -->
-        <section style="margin-bottom:22px;">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-            <h3 style="font-size:13px; font-weight:800; color:#0f172a; text-transform:uppercase; letter-spacing:0.02em; display:flex; align-items:center; gap:6px;" class="dark:text-white">
-              <span>🧠</span> Nên biết trước (Prerequisites)
-            </h3>
-            <span style="font-size:11px; color:#64748b;">AI phân loại 3 nhóm</span>
-          </div>
-          <div id="vr-prereqs-list" class="space-y-2.5">
-            <!-- Dynamically injected -->
-          </div>
-        </section>
-
-        <!-- BLOCK 3: 📚 NẾU CHƯA BIẾT, XEM Ở ĐÂU? (GROUNDED ROUTING) -->
-        <section style="margin-bottom:22px;">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-            <h3 style="font-size:13px; font-weight:800; color:#0f172a; text-transform:uppercase; letter-spacing:0.02em; display:flex; align-items:center; gap:6px;" class="dark:text-white">
-              <span>📚</span> Nếu chưa biết, xem ở đâu?
-            </h3>
-            <span style="font-size:11px; color:#059669; font-weight:600;">Tier 1: Nguồn khóa học</span>
-          </div>
-          <div id="vr-sources-list" class="space-y-2">
-            <!-- Dynamically injected -->
-          </div>
-        </section>
-
-        <!-- BLOCK 4: ⚠️ ĐIỂM NÊN CHÚ Ý (MISCONCEPTIONS & INSTRUCTOR INTENT) -->
-        <section style="margin-bottom:16px;">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-            <h3 style="font-size:13px; font-weight:800; color:#0f172a; text-transform:uppercase; letter-spacing:0.02em; display:flex; align-items:center; gap:6px;" class="dark:text-white">
-              <span>⚠️</span> Điểm nên chú ý & Lời khuyên
-            </h3>
-          </div>
-          <div id="vr-watchouts-list" class="space-y-2.5">
-            <!-- Dynamically injected -->
-          </div>
-        </section>
-
+    <!-- LEFT SIDEBAR: OUTLINE & THUMBNAILS -->
+    <aside id="sidebar-left" class="rd-sidebar-left">
+      <!-- Tabs for Outline vs Filmstrip vs Lessons -->
+      <div class="flex border-b border-slate-200 dark:border-slate-800 p-2 gap-1 bg-slate-50 dark:bg-slate-900/50">
+        <button type="button" id="tab-btn-outline" onclick="switchSidebarTab('outline')" class="flex-1 py-1.5 text-xs font-bold text-blue-700 dark:text-sky-300 bg-white dark:bg-slate-800 rounded-md shadow-xs text-center border border-slate-200 dark:border-slate-700">Mục lục</button>
+        <button type="button" id="tab-btn-slides" onclick="switchSidebarTab('slides')" class="flex-1 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md text-center">Slide (42)</button>
+        <button type="button" id="tab-btn-lessons" onclick="switchSidebarTab('lessons')" class="flex-1 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md text-center">Buổi (16)</button>
       </div>
 
-      <!-- VIEW 2: BACKEND PIPELINE & GROUNDING RULES SPECIFICATION -->
-      <div id="vr-view-api" style="display:none;" class="space-y-4">
-        
-        <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:12px; font-size:12px; color:#1e40af;" class="dark:bg-blue-950/40 dark:border-blue-900 dark:text-blue-300">
-          <strong>Backend Workflow:</strong> Endpoint <code>POST /api/lessons/{id}/prep-card</code> phân tích transcript & slides để đưa ra quyết định phân loại và route nguồn có căn cứ.
+      <!-- Tab Content 1: Outline Tree -->
+      <div id="content-outline" class="flex-1 overflow-y-auto p-3 space-y-1">
+        <div id="outline-lesson-heading" class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2 py-1">Lộ trình Buổi 1</div>
+
+        <div class="rounded-lg bg-blue-50/80 dark:bg-sky-950/40 border border-blue-200/80 dark:border-sky-800/80 p-2.5">
+          <div class="flex items-center justify-between text-xs font-bold text-blue-800 dark:text-sky-200">
+            <span>Phần 1: Giới thiệu & Khởi động</span>
+            <span class="text-[10px] bg-blue-200/60 dark:bg-sky-900 px-1.5 py-0.5 rounded">Trang 1-5</span>
+          </div>
+          <ul class="mt-2 space-y-1 text-xs">
+            <li class="flex items-center gap-2 text-blue-700 dark:text-sky-300 font-semibold cursor-pointer p-1 rounded hover:bg-blue-100/50" onclick="goToSlide(1)">
+              <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+              <span>1. Chào mừng & Tổng quan ML</span>
+            </li>
+            <li class="flex items-center gap-2 text-slate-600 dark:text-slate-400 cursor-pointer p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="goToSlide(2)">
+              <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+              <span>2. Chu trình phát triển mô hình</span>
+            </li>
+          </ul>
         </div>
 
-        <div style="background:#0f172a; color:#f8fafc; border-radius:12px; padding:14px; font-family:monospace; font-size:11px; line-height:1.6;" class="space-y-3">
-          <div style="color:#94a3b8; border-bottom:1px solid #334155; padding-bottom:6px;">
-            <span style="color:#38bdf8; font-weight:bold;">POST</span> /api/lessons/<span id="vr-api-lesson-id">D10</span>/prep-card
+        <div class="rounded-lg border border-slate-200 dark:border-slate-800 p-2.5 hover:border-slate-300 transition-colors">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+            <span>Phần 2: Linear Regression</span>
+            <span class="text-[10px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-500">Trang 6-18</span>
           </div>
+          <ul class="mt-2 space-y-1 text-xs text-slate-600 dark:text-slate-400">
+            <li class="flex items-center gap-2 cursor-pointer p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="goToSlide(3)">
+              <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+              <span>3. Định nghĩa bài toán Hồi quy</span>
+            </li>
+            <li class="flex items-center gap-2 cursor-pointer p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="goToSlide(4)">
+              <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+              <span>4. Hàm mất mát MSE (Mean Squared Error)</span>
+            </li>
+          </ul>
+        </div>
 
-          <div>
-            <div style="color:#f59e0b; font-weight:bold;">1. Input Context:</div>
-            <ul style="padding-left:14px; margin:4px 0; color:#cbd5e1;">
-              <li><code>lesson_transcript</code>: 8,240 từ có gắn timestamp NTP.</li>
-              <li><code>lesson_slides</code>: 32 trang slide PDF bài giảng.</li>
-              <li><code>previous_lesson_metadata</code>: Dữ liệu bài 1 đến bài trước.</li>
-            </ul>
-          </div>
-
-          <div>
-            <div style="color:#f59e0b; font-weight:bold;">2. Logic Quyết Định Phân Loại:</div>
-            <ul style="padding-left:14px; margin:4px 0; color:#cbd5e1;">
-              <li><span style="color:#60a5fa;">[Taught in lesson]</span>: Concept được định nghĩa kỹ trong bài -> KHÔNG bắt học trước.</li>
-              <li><span style="color:#f87171;">[Required]</span>: Concept dùng làm tiền đề mà không giải thích -> Bắt buộc nắm trước.</li>
-              <li><span style="color:#fbbf24;">[Helpful]</span>: Biết trước giúp tiếp thu nhanh hơn nhưng không chặn mạch bài.</li>
-            </ul>
-          </div>
-
-          <div>
-            <div style="color:#f59e0b; font-weight:bold;">3. Guardrails Chống Hallucination:</div>
-            <ul style="padding-left:14px; margin:4px 0; color:#cbd5e1;">
-              <li>Chỉ trích xuất timestamp thật từ bài giảng trước.</li>
-              <li>Nếu không có bài cũ -> Fallback: "Tự ôn tập hoặc hỏi Tutor".</li>
-              <li>Thời gian đọc card đảm bảo dưới 2 phút.</li>
-            </ul>
-          </div>
-
-          <div style="border-top:1px solid #334155; padding-top:8px;">
-            <div style="color:#34d399; font-weight:bold;">4. Live Response Mock:</div>
-            <pre id="vr-api-response" style="max-height:180px; overflow-y:auto; color:#a7f3d0; margin:4px 0;"></pre>
+        <div class="rounded-lg border border-slate-200 dark:border-slate-800 p-2.5 hover:border-slate-300 transition-colors">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+            <span>Phần 3: Gradient Descent</span>
+            <span class="text-[10px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-500">Trang 19-32</span>
           </div>
         </div>
 
+        <div class="rounded-lg border border-slate-200 dark:border-slate-800 p-2.5 hover:border-slate-300 transition-colors">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+            <span>Phần 4: Labwork & Thực hành</span>
+            <span class="text-[10px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-500">Trang 33-42</span>
+          </div>
+        </div>
       </div>
 
-    </div>
+      <!-- Tab Content 2: Filmstrip Slide Thumbnails -->
+      <div id="content-slides" class="flex-1 overflow-y-auto p-3 space-y-3 hidden">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1">Danh sách Slide</div>
+        
+        <!-- Slide 1 Thumbnail -->
+        <div onclick="goToSlide(1)" class="group cursor-pointer rounded-lg p-1.5 border-2 border-blue-600 bg-blue-50/40 dark:bg-blue-950/20 transition-all">
+          <div class="aspect-video rounded bg-white dark:bg-slate-800 p-2 flex flex-col justify-between border border-slate-200 dark:border-slate-700 shadow-xs">
+            <div class="flex items-center justify-between text-[10px] font-bold text-blue-700 dark:text-sky-300">
+              <span>#01</span>
+              <span>VinUni AI</span>
+            </div>
+            <div class="text-[11px] font-bold text-slate-800 dark:text-white leading-tight">Machine Learning Foundations</div>
+            <div class="text-[9px] text-slate-400 truncate">Day 01 — Linear Regression & GD</div>
+          </div>
+          <div class="mt-1 flex items-center justify-between text-[11px] font-semibold text-blue-700 dark:text-sky-300 px-1">
+            <span>Slide 1 / 42</span>
+            <span class="text-[10px] bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-1 rounded">Đang xem</span>
+          </div>
+        </div>
 
-    <!-- Drawer Footer Actions -->
-    <div style="padding: 16px 20px; border-top: 1px solid #e2e8f0; background:#f8fafc;" class="dark:border-slate-800 dark:bg-slate-900 flex items-center justify-between gap-3">
-      <button type="button" onclick="closeVLearnReadyDrawer()" style="padding:9px 14px; font-size:12px; font-weight:600; color:#64748b; background:transparent; border:1px solid #cbd5e1; border-radius:8px; cursor:pointer;" class="dark:border-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-        Đóng
-      </button>
+        <!-- Slide 2 Thumbnail -->
+        <div onclick="goToSlide(2)" class="group cursor-pointer rounded-lg p-1.5 border border-slate-200 dark:border-slate-800 hover:border-slate-400 transition-all">
+          <div class="aspect-video rounded bg-white dark:bg-slate-800 p-2 flex flex-col justify-between border border-slate-200 dark:border-slate-700 shadow-xs">
+            <div class="flex items-center justify-between text-[10px] font-bold text-slate-500">
+              <span>#02</span>
+              <span>Overview</span>
+            </div>
+            <div class="text-[11px] font-bold text-slate-700 dark:text-slate-200 leading-tight">The Machine Learning Workflow</div>
+            <div class="text-[9px] text-slate-400 truncate">Data Collection to Inference</div>
+          </div>
+          <div class="mt-1 text-[11px] text-slate-500 px-1">Slide 2 / 42</div>
+        </div>
 
-      <button type="button" onclick="startLessonFromDrawer()" style="padding:10px 20px; font-size:13px; font-weight:700; color:#ffffff; background:#1d4ed8; border:none; border-radius:10px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 4px 12px rgba(29, 78, 216, 0.3);" class="hover:bg-blue-700 active:scale-95 transition-all">
-        <span>Đã sẵn sàng, vào học ngay 🚀</span>
-      </button>
-    </div>
+        <!-- Slide 3 Thumbnail -->
+        <div onclick="goToSlide(3)" class="group cursor-pointer rounded-lg p-1.5 border border-slate-200 dark:border-slate-800 hover:border-slate-400 transition-all">
+          <div class="aspect-video rounded bg-white dark:bg-slate-800 p-2 flex flex-col justify-between border border-slate-200 dark:border-slate-700 shadow-xs">
+            <div class="flex items-center justify-between text-[10px] font-bold text-slate-500">
+              <span>#03</span>
+              <span>Theory</span>
+            </div>
+            <div class="text-[11px] font-bold text-slate-700 dark:text-slate-200 leading-tight">Hypothesis Function: y = Wx + b</div>
+            <div class="text-[9px] text-slate-400 truncate">Parameters & Weights</div>
+          </div>
+          <div class="mt-1 text-[11px] text-slate-500 px-1">Slide 3 / 42</div>
+        </div>
 
-  </aside>
+        <!-- Slide 4 Thumbnail -->
+        <div onclick="goToSlide(4)" class="group cursor-pointer rounded-lg p-1.5 border border-slate-200 dark:border-slate-800 hover:border-slate-400 transition-all">
+          <div class="aspect-video rounded bg-white dark:bg-slate-800 p-2 flex flex-col justify-between border border-slate-200 dark:border-slate-700 shadow-xs">
+            <div class="flex items-center justify-between text-[10px] font-bold text-slate-500">
+              <span>#04</span>
+              <span>Optimization</span>
+            </div>
+            <div class="text-[11px] font-bold text-slate-700 dark:text-slate-200 leading-tight">Cost Function MSE & Convexity</div>
+            <div class="text-[9px] text-slate-400 truncate">Loss Surface Visualization</div>
+          </div>
+          <div class="mt-1 text-[11px] text-slate-500 px-1">Slide 4 / 42</div>
+        </div>
+      </div>
 
-  <!-- ========================================================================= -->
-  <!-- VLEARN READY: DATA STORE & CLIENT LOGIC -->
-  <!-- ========================================================================= -->
+      <!-- Tab Content 3: All Lessons List -->
+      <div id="content-lessons" class="flex-1 overflow-y-auto p-3 space-y-2 hidden">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1 flex items-center justify-between pb-1 border-b border-slate-200 dark:border-slate-800">
+          <span>Danh sách 16 buổi học</span>
+          <span class="text-[10px] bg-blue-100 dark:bg-sky-950 text-blue-700 dark:text-sky-300 font-semibold px-2 py-0.5 rounded">Mô phỏng</span>
+        </div>
+        <div id="lessons-list-container" class="space-y-1 mt-2">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER MAIN STAGE -->
+    <main class="rd-center-stage">
+
+      <!-- SLIDE VIEW CONTAINER -->
+      <div id="view-slide-container" class="flex flex-col flex-1 h-full overflow-hidden relative">
+        
+        <!-- Floating Annotation & Zoom Bar -->
+        <div class="rd-anno-bar">
+          <button type="button" class="rd-tool-btn active" title="Con trỏ chọn (Select)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mouse-pointer"><path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="m13 13 6 6"/></svg>
+          </button>
+          <button type="button" class="rd-tool-btn" onclick="highlightCurrentText()" title="Bút dạ quang (Highlighter)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-highlighter"><path d="m9 11-6 6v3h9l3-3"/><path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/></svg>
+          </button>
+          <button type="button" class="rd-tool-btn" title="Bút vẽ tự do (Pen)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pen-tool"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+          </button>
+          
+          <div class="h-4 w-px bg-slate-300 dark:bg-slate-700 mx-1"></div>
+
+          <!-- Ask Tutor on Region -->
+          <button type="button" onclick="askTutorAboutSlide()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 dark:bg-amber-950/60 dark:text-amber-200 dark:border-amber-800 transition-colors" title="Hỏi Tutor về slide này">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkle"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+            <span>Hỏi đoạn này</span>
+          </button>
+
+          <div class="h-4 w-px bg-slate-300 dark:bg-slate-700 mx-1"></div>
+
+          <!-- Zoom Out / In -->
+          <button type="button" class="rd-tool-btn" onclick="adjustZoom(-10)" title="Thu nhỏ (-)">-</button>
+          <span id="zoom-level" class="text-xs font-bold text-slate-700 dark:text-slate-300 w-9 text-center">100%</span>
+          <button type="button" class="rd-tool-btn" onclick="adjustZoom(10)" title="Phóng to (+)">+</button>
+        </div>
+
+        <!-- Slide Interactive Display Canvas -->
+        <div class="rd-slide-canvas">
+          <div id="slide-paper" class="rd-slide-page p-10 flex flex-col justify-between">
+            
+            <!-- Slide Top Branding -->
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
+              <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 rounded bg-blue-700 text-white font-black text-xs tracking-wider uppercase">VinUni AI</span>
+                <span class="text-xs font-bold text-slate-500 dark:text-slate-400">Chương trình AI Thực Chiến — Khóa 4</span>
+              </div>
+              <span class="text-xs font-bold text-slate-400">Day 01 / Part 1</span>
+            </div>
+
+            <!-- Slide Body Content -->
+            <div id="slide-content-dynamic" class="my-auto py-6">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-sky-950 dark:text-sky-300 border border-blue-200 dark:border-sky-800 mb-3">
+                <span>✦ Module 1</span>
+                <span>•</span>
+                <span>Kiến thức nền tảng</span>
+              </div>
+
+              <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+                Linear Regression & Gradient Descent
+              </h1>
+              <p class="mt-3 text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+                Khám phá bản chất của học có giám sát (Supervised Learning), hàm giả thuyết tuyến tính và thuật toán tối ưu Gradient Descent để tìm bộ trọng số tối ưu.
+              </p>
+
+              <!-- Formula & Diagram Box -->
+              <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-4">
+                  <div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">1. Hàm Giả Thuyết (Hypothesis)</div>
+                  <div class="font-mono text-base font-bold text-blue-700 dark:text-sky-400 bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
+                    ŷ = h<sub>θ</sub>(x) = θ<sub>0</sub> + θ<sub>1</sub>x<sub>1</sub> + ... + θ<sub>n</sub>x<sub>n</sub>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-2">Dự đoán đầu ra liên tục dựa trên tổ hợp tuyến tính các đặc trưng.</p>
+                </div>
+
+                <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-4">
+                  <div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">2. Hàm Mất Mát (Loss Function MSE)</div>
+                  <div class="font-mono text-base font-bold text-rose-600 dark:text-rose-400 bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
+                    J(θ) = <sup>1</sup>/<sub>2m</sub> ∑ (h<sub>θ</sub>(x<sup>(i)</sup>) - y<sup>(i)</sup>)<sup>2</sup>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-2">Đo lường sai số bình phương trung bình giữa nhãn thực tế và dự đoán.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide Footer -->
+            <div class="flex items-center justify-between border-t border-slate-200 dark:border-slate-700 pt-4 text-xs text-slate-400">
+              <div class="flex items-center gap-2">
+                <span>© 2026 VLearn Platform</span>
+                <span>•</span>
+                <span>Tài liệu học tập nội bộ</span>
+              </div>
+              <div class="font-bold text-slate-600 dark:text-slate-300">
+                Trang <span id="current-page-num">1</span> / 42
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM RAIL CONTROLS -->
+        <div class="rd-bottom-rail">
+          <!-- Page Jump & Controls -->
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="prevSlide()" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+              <span>Trang trước</span>
+            </button>
+            <span class="text-xs font-semibold text-slate-500 px-2">
+              <span id="rail-page-val" class="font-bold text-slate-900 dark:text-white">1</span> / 42
+            </span>
+            <button type="button" onclick="nextSlide()" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <span>Trang sau</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+
+          <!-- Shortcuts & Fullscreen -->
+          <div class="flex items-center gap-3 text-xs text-slate-500">
+            <span class="hidden sm:inline">Phím tắt: <strong>←</strong> / <strong>→</strong> để chuyển slide</span>
+            <button type="button" onclick="toggleFullscreen()" class="p-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400" title="Toàn màn hình">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize-2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" x2="14" y1="3" y2="10"/><line x1="3" x2="10" y1="21" y2="14"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIDEO VIEW CONTAINER (Hidden by default) -->
+      <div id="view-video-container" class="flex-1 flex flex-col items-center justify-center bg-black p-6 hidden">
+        <div class="w-full max-w-4xl bg-slate-900 rounded-xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col">
+          <div class="p-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between text-xs text-white">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+              <span class="font-bold">Video bài giảng 3 — Linear Regression & Machine Learning</span>
+            </div>
+            <span class="text-slate-400">Offline Player</span>
+          </div>
+          <video controls playsinline class="w-full max-h-[620px] bg-black outline-none" src="./assets/videos/video_24.mp4">
+            Trình duyệt không hỗ trợ xem video trực tiếp.
+          </video>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- RIGHT SIDEBAR: VLEARN AI TUTOR -->
+    <aside id="sidebar-tutor" class="rd-sidebar-tutor">
+      <!-- Tutor Header -->
+      <div class="p-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-slate-900 dark:to-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="h-7 w-7 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-xs">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-xs text-slate-900 dark:text-white">VLearn Tutor</span>
+              <span class="text-[10px] font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-sky-300 px-1.5 py-0.2 rounded-full">Thích ứng</span>
+            </div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">Ngữ cảnh: Slide 1 (Day 01)</div>
+          </div>
+        </div>
+
+        <button type="button" onclick="toggleSidebarTutor()" class="h-7 w-7 rounded flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" title="Thu gọn Tutor">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Tutor Chat History Stream -->
+      <div id="tutor-messages" class="flex-1 overflow-y-auto p-4 space-y-3.5">
+        
+        <!-- Welcome message -->
+        <div class="flex gap-2.5">
+          <div class="h-6 w-6 rounded-full bg-blue-600 text-white flex-shrink-0 flex items-center justify-center text-[10px] font-bold">
+            AI
+          </div>
+          <div class="tutor-bubble bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700">
+            <p>Chào <strong>Duy</strong>! Mình là VLearn Tutor. Ở Slide 1 này, trọng tâm là hiểu rõ <strong>Hypothesis Function</strong> và <strong>Cost Function MSE</strong>.</p>
+            <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Bạn đang vướng chỗ nào hoặc muốn mình gợi ý câu hỏi để đào sâu không?</p>
+          </div>
+        </div>
+
+        <!-- Quick Prompt Chips -->
+        <div class="flex flex-wrap gap-1.5 pt-1">
+          <button type="button" onclick="sendQuickPrompt('Tóm tắt ý chính của Slide 1 này')" class="px-2.5 py-1 rounded-full text-xs bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-700 transition-colors">
+            ⚡ Tóm tắt slide này
+          </button>
+          <button type="button" onclick="sendQuickPrompt('Vì sao hàm mất mát J(θ) lại có hệ số 1/2m?')" class="px-2.5 py-1 rounded-full text-xs bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-700 transition-colors">
+            🎯 Vì sao có hệ số 1/2m?
+          </button>
+          <button type="button" onclick="sendQuickPrompt('Luyện tập nhanh câu hỏi Active Recall về Linear Regression')" class="px-2.5 py-1 rounded-full text-xs bg-blue-50 hover:bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-200 border border-blue-200 dark:border-blue-800 font-medium transition-colors">
+            🧠 Luyện tập Active Recall →
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Tutor Chat Input Box -->
+      <div class="p-3 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <form id="tutor-chat-form" onsubmit="handleTutorSubmit(event)" class="flex items-center gap-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-100 dark:focus-within:ring-blue-900 transition-all">
+          <input id="tutor-input" type="text" placeholder="Hỏi Tutor về slide hiện tại..." class="flex-1 bg-transparent text-xs text-slate-900 dark:text-white outline-none placeholder-slate-400">
+          <button type="submit" class="h-7 w-7 rounded-lg bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-colors flex-shrink-0" title="Gửi câu hỏi">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </button>
+        </form>
+        <div class="mt-1.5 flex items-center justify-between text-[10px] text-slate-400 px-1">
+          <span>Gõ tự do hoặc chọn gợi ý phía trên</span>
+          <span>Shift + Enter để xuống dòng</span>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- INTERACTIVE CLIENT SCRIPT -->
+  </div> <!-- /app-view-reader -->
+
+  <!-- Unified SPA Routing & Reader Scripts -->
   <script>
-    (function () {
-      // Complete Grounded Dataset for Lessons
-      var VLEARN_PREP_DATA = {
-        'D10': {
-          lessonId: 'D10',
-          title: 'Buổi 10: Data Pipeline Observability',
-          subtitle: 'Logs, Metrics & Distributed Tracing',
-          duration: '52 phút • GS. Laurent El Ghaoui',
-          groundingConfidence: '98%',
-          videoIndex: 7,
-          videoPath: 'assets/videos/video_10.mp4',
-          outcomes: [
-            'Phân biệt rõ vai trò, chi phí và thời điểm dùng của 3 trụ cột Observability: Metric, Log và Distributed Trace.',
-            'Cấu hình OpenTelemetry Collector nhận trace context qua W3C traceparent header.',
-            'Định vị root-cause pipeline lag (nghẽn dữ liệu) trong streaming data thông qua distributed span waterfall.'
-          ],
-          prerequisites: [
-            {
-              term: 'Docker & Container Networking',
-              category: 'required',
-              categoryLabel: 'Bắt buộc [Required]',
-              source: 'Buổi 02 • Slide 18–24',
-              desc: 'Cần hiểu cách các container kết nối network để chạy Docker Compose gồm OTel Collector, Prometheus và Jaeger.'
-            },
-            {
-              term: 'Structured JSON Logging',
-              category: 'required',
-              categoryLabel: 'Bắt buộc [Required]',
-              source: 'Buổi 08 @ 14:20 • Video snippet',
-              desc: 'Log bắt buộc xuất dạng JSON có gắn level, timestamp chuẩn NTP và service_name trước khi gắn trace_id.'
-            },
-            {
-              term: 'Prometheus Pull vs Push Architecture',
-              category: 'helpful',
-              categoryLabel: 'Hữu ích [Helpful]',
-              source: 'Buổi 09 • Slide 12–15',
-              desc: 'Biết trước cơ chế scrape metrics của Prometheus sẽ giúp bạn hiểu nhanh hơn cách OTel Collector push dữ liệu.'
-            },
-            {
-              term: 'Context Propagation & Traceparent',
-              category: 'taught',
-              categoryLabel: 'Sẽ dạy trong bài [Taught in lesson]',
-              source: 'Được giảng từ phút 08:30',
-              desc: 'Khái niệm lan truyền ngữ cảnh trace qua HTTP. Giảng viên sẽ định nghĩa từ đầu, học viên KHÔNG cần tự học trước.'
-            }
-          ],
-          sources: [
-            {
-              title: 'Buổi 08: Stream Processing & Kafka @ 14:20',
-              badge: 'Video & Transcript',
-              snippet: 'Thầy Laurent giải thích vì sao log plain text không thể filter được trên cụm phân tán và hướng dẫn chuẩn hóa JSON.'
-            },
-            {
-              title: 'Buổi 02: Slide 18–24 (Container Network Bridge)',
-              badge: 'Slide PDF',
-              snippet: 'Sơ đồ liên kết port giữa microservices và middleware pipeline.'
-            }
-          ],
-          watchouts: [
-            {
-              type: 'misconception',
-              title: '82% học viên cohort trước nhầm giữa Trace ID và Span ID',
-              desc: 'Trace ID đại diện cho toàn bộ hành trình request qua 5-10 services; còn Span ID là mã của từng chặng nhỏ đơn lẻ.'
-            },
-            {
-              type: 'intent',
-              title: 'Lời dặn từ GS. Laurent El Ghaoui',
-              desc: 'Không cần học thuộc lòng cú pháp YAML exporter phức tạp, chỉ cần hiểu luồng di chuyển của trace metadata.'
-            }
-          ]
-        },
+    // SPA View Switcher
+    function showView(view, day, title) {
+      var dashView = document.getElementById('app-view-dashboard');
+      var rView = document.getElementById('app-view-reader');
+      
+      if (view === 'reader') {
+        dashView.classList.add('hidden');
+        rView.classList.remove('hidden');
+        document.body.classList.add('in-reader');
 
-        'D01': {
-          lessonId: 'D01',
-          title: 'Buổi 1: Day01 — Giới thiệu Khóa học & Kiến trúc AI',
-          subtitle: 'Foundation, Tooling & End-to-End AI Engineering',
-          duration: '45 phút • Ban Giảng Huấn VinUni AI',
-          groundingConfidence: '99%',
-          videoIndex: 0,
-          videoPath: 'assets/videos/video_3.mp4',
-          outcomes: [
-            'Nắm trọn vẹn vòng đời một Production AI System từ Data Ingestion, Model Training đến Serving.',
-            'Thiết lập môi trường thực chiến chuẩn (Dev container, GPU acceleration, Code Linters).'
-          ],
-          prerequisites: [
-            {
-              term: 'Python 3 Core (Async/Await & Type Hints)',
-              category: 'required',
-              categoryLabel: 'Bắt buộc [Required]',
-              source: 'Module 00: Python Refresher',
-              desc: 'Nền tảng lập trình hướng đối tượng và bất đồng bộ xuyên suốt khóa học.'
-            },
-            {
-              term: 'Git Workflow & Terminal CLI',
-              category: 'helpful',
-              categoryLabel: 'Hữu ích [Helpful]',
-              source: 'Tài liệu hướng dẫn Git /resources',
-              desc: 'Thao tác clone repo, commit, pull request và debug script bằng command line.'
-            },
-            {
-              term: 'Production AI System Architecture',
-              category: 'taught',
-              categoryLabel: 'Sẽ dạy trong bài [Taught in lesson]',
-              source: 'Giảng viên phân tích từ phút 05:00',
-              desc: 'Khung kiến trúc hệ thống AI sẽ được giảng dạy và mổ xẻ từng tầng trong chính buổi học này.'
-            }
-          ],
-          sources: [
-            {
-              title: 'Module 00: Python for Data & AI Refresher',
-              badge: 'Bài đọc 5 phút',
-              snippet: 'Tóm tắt các hàm type hint và coroutine quan trọng cho backend AI.'
-            }
-          ],
-          watchouts: [
-            {
-              type: 'misconception',
-              title: 'Phân biệt AI Research vs AI Engineering',
-              desc: 'Hệ thống thực chiến không chỉ tối ưu accuracy/F1 mà quan tâm đến p99 latency và chi phí vận hành GPU.'
-            }
-          ]
-        },
-
-        'D02': {
-          lessonId: 'D02',
-          title: 'Buổi 2: DAY02 — Docker & Containerization cho AI',
-          subtitle: 'Multi-container AI Stack & GPU Passthrough',
-          duration: '50 phút • Kỹ sư Trưởng VLearn',
-          groundingConfidence: '97%',
-          videoIndex: 1,
-          videoPath: 'assets/videos/video_4.mp4',
-          outcomes: [
-            'Đóng gói model và API server thành Docker image tối ưu dung lượng (multi-stage build).',
-            'Thiết lập bridge network cho nhiều service (FastAPI, Redis, PostgreSQL).'
-          ],
-          prerequisites: [
-            {
-              term: 'Linux File System & Permissions',
-              category: 'required',
-              categoryLabel: 'Bắt buộc [Required]',
-              source: 'Buổi 01 @ 32:00',
-              desc: 'Hiểu cơ chế mount volume và phân quyền user trong Linux container.'
-            },
-            {
-              term: 'TCP/IP & Port Binding Basics',
-              category: 'helpful',
-              categoryLabel: 'Hữu ích [Helpful]',
-              source: 'Slide Buổi 01',
-              desc: 'Hiểu cách map host port sang container port.'
-            },
-            {
-              term: 'NVIDIA Container Toolkit & CUDA Drivers',
-              category: 'taught',
-              categoryLabel: 'Sẽ dạy trong bài [Taught in lesson]',
-              source: 'Giảng viên demo từ phút 18:00',
-              desc: 'Cách cấu hình runtime GPU cho container sẽ được hướng dẫn từng bước trong bài.'
-            }
-          ],
-          sources: [
-            {
-              title: 'Buổi 01: Setup Ubuntu & Environment @ 32:00',
-              badge: 'Video snippet',
-              snippet: 'Hướng dẫn cài đặt Docker Engine và cấu hình permissions không cần sudo.'
-            }
-          ],
-          watchouts: [
-            {
-              type: 'misconception',
-              title: 'Bind mount vs Named Volume',
-              desc: 'Bind mount thích hợp khi dev mã nguồn, còn Named Volume dùng để lưu trữ model weights và database bền vững.'
-            }
-          ]
-        },
-
-        'D08': {
-          lessonId: 'D08',
-          title: 'Buổi 8: Day08 — Stream Processing & Kafka Architecture',
-          subtitle: 'Event-driven Architecture & Distributed Messaging',
-          duration: '48 phút • GS. Laurent El Ghaoui',
-          groundingConfidence: '99%',
-          videoIndex: 5,
-          videoPath: 'assets/videos/video_8.mp4',
-          outcomes: [
-            'Thiết kế message pipeline chịu lỗi cao với Kafka Topics, Partitions và Consumer Groups.',
-            'Xử lý bài toán out-of-order events và chống trùng lặp dữ liệu (Exactly-Once Semantics).'
-          ],
-          prerequisites: [
-            {
-              term: 'Batch vs Stream Processing Concepts',
-              category: 'required',
-              categoryLabel: 'Bắt buộc [Required]',
-              source: 'Buổi 06 • Slide 04–09',
-              desc: 'Hiểu rõ trade-off giữa throughput (Batch) và latency (Stream).'
-            },
-            {
-              term: 'Pub/Sub Pattern vs Message Queues',
-              category: 'helpful',
-              categoryLabel: 'Hữu ích [Helpful]',
-              source: 'Buổi 07 @ 20:10',
-              desc: 'Sự khác biệt giữa queue truyền thống và append-only commit log.'
-            },
-            {
-              term: 'Kafka Distributed Commit Log Internals',
-              category: 'taught',
-              categoryLabel: 'Sẽ dạy trong bài [Taught in lesson]',
-              source: 'Thầy giảng từ phút 10:15',
-              desc: 'Cơ chế lưu trữ đĩa tuần tự (Sequential I/O) sẽ được phân tích sâu trong bài.'
-            }
-          ],
-          sources: [
-            {
-              title: 'Buổi 06 Slide 04–09: So sánh Batch vs Stream',
-              badge: 'Slide PDF',
-              snippet: 'Bảng đối chiếu kiến trúc Lambda vs Kappa.'
-            },
-            {
-              title: 'Buổi 07 @ 20:10: Microservices Message Broker',
-              badge: 'Video đoạn ngắn',
-              snippet: 'Nguyên lý chuyển giao thông điệp phân tán.'
-            }
-          ],
-          watchouts: [
-            {
-              type: 'misconception',
-              title: 'Partition Key quyết định thứ tự message',
-              desc: 'Kafka chỉ đảm bảo thứ tự trong cùng 1 Partition. Sai partition key sẽ dẫn đến lệch tải và sai lệch thứ tự dữ liệu.'
-            }
-          ]
-        }
-      };
-
-      var activeLessonId = 'D10';
-
-      // Open Drawer with lesson context
-      window.openVLearnReadyDrawer = function (lessonId) {
-        var data = VLEARN_PREP_DATA[lessonId] || VLEARN_PREP_DATA['D10'];
-        activeLessonId = data.lessonId;
-
-        var overlay = document.getElementById('vr-drawer-overlay');
-        var drawer = document.getElementById('vr-slide-drawer');
-        var titleEl = document.getElementById('vr-drawer-lesson-title');
-        var badgeEl = document.getElementById('vr-drawer-badge');
-        var apiLessonId = document.getElementById('vr-api-lesson-id');
-
-        if (titleEl) titleEl.textContent = data.title;
-        if (badgeEl) badgeEl.textContent = '● Grounded ' + data.groundingConfidence;
-        if (apiLessonId) apiLessonId.textContent = data.lessonId;
-
-        // Render Block 1: Outcomes
-        var outcomesContainer = document.getElementById('vr-outcomes-list');
-        if (outcomesContainer) {
-          outcomesContainer.innerHTML = data.outcomes.map(function (item, idx) {
-            return `
-              <div class="vr-item-box" style="display:flex; align-items:flex-start; gap:8px;">
-                <span style="background:#eff6ff; color:#1d4ed8; width:20px; height:20px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; shrink-0;">
-                  ${idx + 1}
-                </span>
-                <span style="font-size:12px; color:#334155; line-height:1.4;" class="dark:text-slate-300">
-                  ${item}
-                </span>
-              </div>
-            `;
-          }).join('');
-        }
-
-        // Render Block 2: Prerequisites
-        var prereqsContainer = document.getElementById('vr-prereqs-list');
-        if (prereqsContainer) {
-          prereqsContainer.innerHTML = data.prerequisites.map(function (item) {
-            var tagClass = 'vr-tag--' + item.category;
-            return `
-              <div class="vr-item-box">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; flex-wrap:wrap; gap:4px;">
-                  <span style="font-size:12px; font-weight:800; color:#0f172a;" class="dark:text-white">${item.term}</span>
-                  <span class="vr-tag ${tagClass}">${item.categoryLabel}</span>
-                </div>
-                <p style="font-size:11px; color:#475569; margin:0 0 6px 0; line-height:1.4;" class="dark:text-slate-400">
-                  ${item.desc}
-                </p>
-                <div style="font-size:10px; color:#64748b; font-weight:600;">
-                  Nguồn: <strong style="color:#0f172a;" class="dark:text-slate-200">${item.source}</strong>
-                </div>
-              </div>
-            `;
-          }).join('');
-        }
-
-        // Render Block 3: Sources
-        var sourcesContainer = document.getElementById('vr-sources-list');
-        if (sourcesContainer) {
-          sourcesContainer.innerHTML = data.sources.map(function (s) {
-            return `
-              <div class="vr-item-box" style="border-left:3px solid #059669;">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
-                  <span style="font-size:12px; font-weight:700; color:#065f46;" class="dark:text-emerald-400">${s.title}</span>
-                  <span class="vr-tag" style="background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0;">${s.badge}</span>
-                </div>
-                <p style="font-size:11px; color:#475569; margin:0; line-height:1.4;" class="dark:text-slate-300">${s.snippet}</p>
-              </div>
-            `;
-          }).join('');
-        }
-
-        // Render Block 4: Watchouts
-        var watchoutsContainer = document.getElementById('vr-watchouts-list');
-        if (watchoutsContainer) {
-          watchoutsContainer.innerHTML = data.watchouts.map(function (w) {
-            var isIntent = w.type === 'intent';
-            var borderCol = isIntent ? '#9333ea' : '#d97706';
-            var bgCol = isIntent ? '#faf5ff' : '#fffbeb';
-            var textCol = isIntent ? '#6b21a8' : '#92400e';
-            return `
-              <div class="vr-item-box" style="border-left:3px solid ${borderCol}; background:${bgCol};" class="dark:bg-slate-900">
-                <div style="font-size:11px; font-weight:800; color:${textCol}; margin-bottom:2px;">
-                  ${isIntent ? '🎓 LỜI KHUYÊN GIẢNG VIÊN' : '⚠️ KHÁI NIỆM DỄ NHẦM LẪN'}
-                </div>
-                <div style="font-size:12px; font-weight:700; color:#0f172a; margin-bottom:2px;" class="dark:text-white">${w.title}</div>
-                <p style="font-size:11px; color:#334155; margin:0; line-height:1.4;" class="dark:text-slate-300">${w.desc}</p>
-              </div>
-            `;
-          }).join('');
-        }
-
-        // Populate API response JSON preview
-        var apiResponseEl = document.getElementById('vr-api-response');
-        if (apiResponseEl) {
-          apiResponseEl.textContent = JSON.stringify({
-            lesson_id: data.lessonId,
-            title: data.title,
-            grounding_confidence: data.groundingConfidence,
-            outcomes_count: data.outcomes.length,
-            prerequisites_detected: data.prerequisites.map(function (p) {
-              return { term: p.term, category: p.category, source: p.source };
-            }),
-            guardrails: {
-              hallucinated_urls: 0,
-              reading_time_seconds: 75,
-              grounding_tier: "Tier 1 (Course Source of Truth)"
-            }
-          }, null, 2);
-        }
-
-        setDrawerTabMode('card');
-
-        if (overlay) overlay.classList.add('open');
-        if (drawer) drawer.classList.add('open');
-      };
-
-      window.closeVLearnReadyDrawer = function () {
-        var overlay = document.getElementById('vr-drawer-overlay');
-        var drawer = document.getElementById('vr-slide-drawer');
-        if (overlay) overlay.classList.remove('open');
-        if (drawer) drawer.classList.remove('open');
-      };
-
-      window.setDrawerTabMode = function (mode) {
-        var tabCard = document.getElementById('vr-tab-card');
-        var tabApi = document.getElementById('vr-tab-api');
-        var viewCard = document.getElementById('vr-view-card');
-        var viewApi = document.getElementById('vr-view-api');
-
-        if (mode === 'api') {
-          if (viewCard) viewCard.style.display = 'none';
-          if (viewApi) viewApi.style.display = 'block';
-          if (tabCard) { tabCard.style.color = '#64748b'; tabCard.style.borderBottom = 'none'; }
-          if (tabApi) { tabApi.style.color = '#1d4ed8'; tabApi.style.borderBottom = '2px solid #1d4ed8'; }
+        if (day) {
+          applyLesson(day, title);
         } else {
-          if (viewCard) viewCard.style.display = 'block';
-          if (viewApi) viewApi.style.display = 'none';
-          if (tabCard) { tabCard.style.color = '#1d4ed8'; tabCard.style.borderBottom = '2px solid #1d4ed8'; }
-          if (tabApi) { tabApi.style.color = '#64748b'; tabApi.style.borderBottom = 'none'; }
+          applyLesson(currentLessonId, currentLessonTitle);
         }
-      };
+        window.history.pushState({ view: 'reader', day: currentLessonId, title: currentLessonTitle }, '', '#reader?day=' + currentLessonId);
+        window.scrollTo(0, 0);
+      } else {
+        rView.classList.add('hidden');
+        dashView.classList.remove('hidden');
+        document.body.classList.remove('in-reader');
+        document.title = 'VLearn — Nền tảng học AI VinUni Thực Chiến';
+        window.history.pushState({ view: 'dashboard' }, '', '#dashboard');
+        window.scrollTo(0, 0);
+      }
+    }
 
-      // Action: "Đã sẵn sàng, vào học ngay 🚀"
-      window.startLessonFromDrawer = function () {
-        var data = VLEARN_PREP_DATA[activeLessonId] || VLEARN_PREP_DATA['D10'];
-        closeVLearnReadyDrawer();
+    // Popstate support
+    window.addEventListener('popstate', function(e) {
+      if (e.state && e.state.view === 'reader') {
+        showView('reader', e.state.day, e.state.title);
+      } else if (window.location.hash.includes('reader')) {
+        showView('reader');
+      } else {
+        showView('dashboard');
+      }
+    });
 
-        // Ensure unified stage is visible
-        var stage = document.getElementById('__vlearn_unified_stage__');
-        if (stage) {
-          stage.style.display = 'flex';
-          var titleEl = document.getElementById('__stage_title__');
-          if (titleEl) titleEl.textContent = data.title;
+    // Reader logic
+var currentSlide = 1;
+    var totalSlides = 42;
+    var zoomFactor = 100;
 
-          var vid = document.getElementById('__offline_main_video__');
-          if (vid && data.videoPath) {
-            vid.src = './' + data.videoPath;
-            vid.load();
-            vid.play().catch(function () {});
-          }
+    var slidesData = [
+      {
+        page: 1,
+        title: "Linear Regression & Gradient Descent",
+        subtitle: "Khám phá bản chất của học có giám sát (Supervised Learning), hàm giả thuyết tuyến tính và thuật toán tối ưu Gradient Descent.",
+        tag: "✦ Module 1 • Nền tảng",
+        formula1: "ŷ = h(x) = θ₀ + θ₁x₁ + ... + θₙxₙ",
+        formula2: "J(θ) = 1/(2m) ∑ (h(x⁽ⁱ⁾) - y⁽ⁱ⁾)²"
+      },
+      {
+        page: 2,
+        title: "The Machine Learning Workflow",
+        subtitle: "Quy trình từ chuẩn bị dữ liệu (Data Preprocessing), chọn mô hình, huấn luyện (Training) đến đánh giá (Validation/Testing).",
+        tag: "✦ Module 1 • Quy trình",
+        formula1: "Dataset D = {(x⁽¹⁾, y⁽¹⁾), ..., (x⁽ᵐ⁾, y⁽ᵐ⁾)}",
+        formula2: "Train Loss ➔ Validation Loss ➔ Generalization"
+      },
+      {
+        page: 3,
+        title: "Hypothesis Function & Model Parameters",
+        subtitle: "Phân biệt giữa Feature vector x, Trọng số Weight vector W và độ lệch Bias b. Cách mô hình ánh xạ từ X sang Y.",
+        tag: "✦ Module 2 • Giả thuyết",
+        formula1: "y_pred = W^T · X + b",
+        formula2: "Residual e⁽ⁱ⁾ = y_pred⁽ⁱ⁾ - y⁽ⁱ⁾"
+      },
+      {
+        page: 4,
+        title: "Cost Function MSE & Convex Optimization",
+        subtitle: "Tại sao hàm mất mát MSE lại có dạng hình chén (Convex Bowl) và đảm bảo tìm được điểm cực tiểu toàn cục (Global Minimum).",
+        tag: "✦ Module 2 • Tối ưu",
+        formula1: "∇J(θ) = 1/m X^T(Xθ - y)",
+        formula2: "θ := θ - α ∇J(θ) (với α là learning rate)"
+      }
+    ];
 
-          stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+    function renderSlide(pageNum) {
+      var data = slidesData.find(function(s) { return s.page === pageNum; });
+      if (!data) {
+        data = {
+          page: pageNum,
+          title: "Nội dung bài giảng Slide " + pageNum,
+          subtitle: "Chi tiết thuật toán, bài tập thực hành trên Google Colab / VinUni Codelabs.",
+          tag: "✦ Module " + Math.ceil(pageNum / 10),
+          formula1: "f(x) = Activation(W · x + b)",
+          formula2: "Loss = CrossEntropy(y, ŷ) + λ||W||²"
+        };
+      }
 
-        // Show celebration toast
-        var toast = document.createElement('div');
-        toast.style.cssText = 'position:fixed; bottom:30px; right:30px; z-index:10000; background:#059669; color:#fff; font-weight:700; font-size:13px; padding:12px 20px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.25); display:flex; align-items:center; gap:8px; animation:fadeIn 0.3s ease;';
-        toast.innerHTML = '<span>🚀 Chúc mừng bạn đã chuẩn bị bài xong! Bắt đầu bài học ngay.</span>';
-        document.body.appendChild(toast);
-        setTimeout(function () { toast.remove(); }, 3500);
-      };
+      document.getElementById('current-page-num').innerText = pageNum;
+      document.getElementById('rail-page-val').innerText = pageNum;
 
-      window.toggleUnifiedStage = function () {
-        var stage = document.getElementById('__vlearn_unified_stage__');
-        if (stage) {
-          if (stage.style.display === 'none' || !stage.style.display) {
-            stage.style.display = 'flex';
-            stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          } else {
-            stage.style.display = 'none';
-          }
-        }
-      };
-    })();
+      var contentEl = document.getElementById('slide-content-dynamic');
+      contentEl.innerHTML = 
+        '<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-sky-950 dark:text-sky-300 border border-blue-200 dark:border-sky-800 mb-3">' +
+          '<span>' + data.tag + '</span>' +
+        '</div>' +
+        '<h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">' +
+          data.title +
+        '</h1>' +
+        '<p class="mt-3 text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">' +
+          data.subtitle +
+        '</p>' +
+        '<div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">' +
+          '<div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-4">' +
+            '<div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Công thức chính</div>' +
+            '<div class="font-mono text-base font-bold text-blue-700 dark:text-sky-400 bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">' +
+              data.formula1 +
+            '</div>' +
+          '</div>' +
+          '<div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-4">' +
+            '<div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Tối ưu & Đạo hàm</div>' +
+            '<div class="font-mono text-base font-bold text-rose-600 dark:text-rose-400 bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">' +
+              data.formula2 +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+
+    function goToSlide(n) {
+      if (n < 1 || n > totalSlides) return;
+      currentSlide = n;
+      renderSlide(currentSlide);
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        goToSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        goToSlide(currentSlide - 1);
+      }
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+    });
+
+    // Zoom Controls
+    function adjustZoom(delta) {
+      zoomFactor = Math.max(70, Math.min(150, zoomFactor + delta));
+      document.getElementById('zoom-level').innerText = zoomFactor + '%';
+      var paper = document.getElementById('slide-paper');
+      paper.style.transform = 'scale(' + (zoomFactor / 100) + ')';
+      paper.style.transformOrigin = 'center center';
+    }
+
+    // Material Switcher (Slide / Video)
+    function switchMaterial(mode) {
+      var slideTab = document.getElementById('tab-mode-slide');
+      var videoTab = document.getElementById('tab-mode-video');
+      var slideView = document.getElementById('view-slide-container');
+      var videoView = document.getElementById('view-video-container');
+
+      if (mode === 'video') {
+        slideTab.classList.remove('active');
+        videoTab.classList.add('active');
+        slideView.classList.add('hidden');
+        videoView.classList.remove('hidden');
+      } else {
+        videoTab.classList.remove('active');
+        slideTab.classList.add('active');
+        videoView.classList.add('hidden');
+        slideView.classList.remove('hidden');
+      }
+    }
+
+    // Sidebar Toggles
+    function toggleSidebarLeft() {
+      var sb = document.getElementById('sidebar-left');
+      sb.classList.toggle('collapsed');
+    }
+
+    function toggleSidebarTutor() {
+      var sb = document.getElementById('sidebar-tutor');
+      sb.classList.toggle('collapsed');
+    }
+
+    function switchSidebarTab(tab) {
+      var btnOutline = document.getElementById('tab-btn-outline');
+      var btnSlides = document.getElementById('tab-btn-slides');
+      var btnLessons = document.getElementById('tab-btn-lessons');
+      var contentOutline = document.getElementById('content-outline');
+      var contentSlides = document.getElementById('content-slides');
+      var contentLessons = document.getElementById('content-lessons');
+
+      var activeClass = 'flex-1 py-1.5 text-xs font-bold text-blue-700 dark:text-sky-300 bg-white dark:bg-slate-800 rounded-md shadow-xs text-center border border-slate-200 dark:border-slate-700';
+      var inactiveClass = 'flex-1 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md text-center';
+
+      btnOutline.className = (tab === 'outline') ? activeClass : inactiveClass;
+      btnSlides.className = (tab === 'slides') ? activeClass : inactiveClass;
+      btnLessons.className = (tab === 'lessons') ? activeClass : inactiveClass;
+
+      contentOutline.classList.toggle('hidden', tab !== 'outline');
+      contentSlides.classList.toggle('hidden', tab !== 'slides');
+      contentLessons.classList.toggle('hidden', tab !== 'lessons');
+    }
+
+    // Dynamic Lesson List & Navigation
+    var LESSONS_LIST = [
+      { id: 'D01', title: 'Buổi 1: Day01 — Giới thiệu Khóa học & Kiến trúc AI', short: 'Buổi 1: Day01' },
+      { id: 'D02', title: 'Buổi 2: DAY02 — Docker & Containerization cho AI', short: 'Buổi 2: DAY02' },
+      { id: 'D03', title: 'Buổi 3: DAY03 — Multi-container AI Stack & Bridge', short: 'Buổi 3: DAY03' },
+      { id: 'D04', title: 'Buổi 4: DAY04 — FastAPI & Model Serving', short: 'Buổi 4: DAY04' },
+      { id: 'D05', title: 'Buổi 5: Day05 — Async Ingestion & Background Task', short: 'Buổi 5: Day05' },
+      { id: 'D06', title: 'Buổi 6: Day06 — Data Pipeline & Feature Extraction', short: 'Buổi 6: Day06' },
+      { id: 'D07', title: 'Buổi 7: Day07 — Model Evaluation & Validation', short: 'Buổi 7: Day07' },
+      { id: 'D08', title: 'Buổi 8: Day08 — Stream Processing & Kafka Architecture', short: 'Buổi 8: Day08' },
+      { id: 'D09', title: 'Buổi 9: Day09 — Real-time Feature Store & Feast', short: 'Buổi 9: Day09' },
+      { id: 'D10', title: 'Buổi 10: Day10-data-pipeline-observability', short: 'Buổi 10: Day10' },
+      { id: 'D11', title: 'Buổi 11: Day11-guardrails-ai-safety', short: 'Buổi 11: Day11' },
+      { id: 'D12', title: 'Buổi 12: Day12-cloud-services-and-deployment', short: 'Buổi 12: Day12' },
+      { id: 'D13', title: 'Buổi 13: Day13-monitoring-logging-observability', short: 'Buổi 13: Day13' },
+      { id: 'D14', title: 'Buổi 14: Day14-ai-evaluation-benchmarking', short: 'Buổi 14: Day14' },
+      { id: 'D15', title: 'Buổi 15: Day15-trien-khai-thuc-te-dinh-huong', short: 'Buổi 15: Day15' },
+      { id: 'D16', title: 'Buổi 16: MINI HACKATHON', short: 'Buổi 16: MINI HACKATHON' }
+    ];
+
+    var currentLessonId = 'D01';
+    var currentLessonTitle = 'Buổi 1: Day01';
+
+    function initLessonFromUrl() {
+      var params = new URLSearchParams(window.location.search);
+      var day = params.get('day') || 'D01';
+      var title = params.get('title');
+
+      var found = LESSONS_LIST.find(function(l) { return l.id === day; });
+      if (!title && found) {
+        title = found.title;
+      } else if (!title) {
+        title = 'Buổi học: ' + day;
+      }
+
+      applyLesson(day, title);
+    }
+
+    function applyLesson(day, title) {
+      currentLessonId = day;
+      currentLessonTitle = title;
+
+      // Update document title
+      document.title = title + ' — VLearn Reader | VinUni AI Thực Chiến';
+
+      // Update breadcrumb
+      var bcrumb = document.getElementById('reader-breadcrumb-title');
+      if (bcrumb) bcrumb.textContent = title;
+
+      // Update outline heading
+      var outlineHeading = document.getElementById('outline-lesson-heading');
+      if (outlineHeading) outlineHeading.textContent = 'Lộ trình ' + title;
+
+      // Update banner text
+      var bannerText = document.getElementById('vr-reader-banner-text');
+      if (bannerText) bannerText.textContent = '💡 Trước khi học bài: Kiểm tra nhanh xem bạn đã nắm đủ kiến thức nền cho ' + title + ' chưa (2–3 phút).';
+
+      // Re-render lessons list in sidebar
+      renderLessonsList();
+    }
+
+    function switchLesson(day, title) {
+      var newUrl = window.location.pathname + '?day=' + encodeURIComponent(day) + '&title=' + encodeURIComponent(title);
+      window.history.pushState({ day: day, title: title }, '', newUrl);
+      applyLesson(day, title);
+    }
+
+    function openCurrentReady() {
+      openVLearnReady(currentLessonId, currentLessonTitle);
+    }
+
+    function renderLessonsList() {
+      var container = document.getElementById('lessons-list-container');
+      if (!container) return;
+      
+      var html = '';
+      LESSONS_LIST.forEach(function(l) {
+        var isCurrent = (l.id === currentLessonId);
+        var activeBorder = isCurrent ? 'border-blue-600 bg-blue-50/80 dark:bg-blue-950/40 text-blue-800 dark:text-sky-300 font-bold' : 'border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-300';
+        var badge = isCurrent ? '<span class="text-[9px] bg-blue-600 text-white px-1.5 py-0.5 rounded font-bold shrink-0">Đang xem</span>' : '<span class="text-[9px] text-slate-400 shrink-0">Xem bài</span>';
+
+        html += 
+          '<div onclick="switchLesson(\'' + l.id + '\', \'' + escapeHtml(l.title) + '\')" class="flex items-center justify-between p-2 rounded-lg border ' + activeBorder + ' cursor-pointer transition-all text-xs">' +
+            '<div class="flex items-center gap-2 truncate min-w-0 pr-2">' +
+              '<span class="w-1.5 h-1.5 rounded-full ' + (isCurrent ? 'bg-blue-600' : 'bg-slate-400') + ' shrink-0"></span>' +
+              '<span class="truncate">' + escapeHtml(l.title) + '</span>' +
+            '</div>' +
+            badge +
+          '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    // Auto initialize lesson state on load
+    document.addEventListener('DOMContentLoaded', function() {
+      initLessonFromUrl();
+    });
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+      initLessonFromUrl();
+    }
+
+    // Theme toggle
+    function toggleTheme() {
+      var isDark = document.documentElement.classList.toggle('dark');
+      try {
+        localStorage.setItem('vlearn_theme', isDark ? 'dark' : 'light');
+      } catch (e) {}
+    }
+
+    // Tutor Chat interaction
+    function sendQuickPrompt(text) {
+      appendUserMessage(text);
+      setTimeout(function() {
+        replyFromTutor(text);
+      }, 600);
+    }
+
+    function handleTutorSubmit(e) {
+      e.preventDefault();
+      var input = document.getElementById('tutor-input');
+      var text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      appendUserMessage(text);
+      setTimeout(function() {
+        replyFromTutor(text);
+      }, 700);
+    }
+
+    function appendUserMessage(text) {
+      var container = document.getElementById('tutor-messages');
+      var userMsg = document.createElement('div');
+      userMsg.className = 'flex justify-end';
+      userMsg.innerHTML = 
+        '<div class="tutor-bubble bg-blue-600 text-white rounded-br-none">' +
+          escapeHtml(text) +
+        '</div>';
+      container.appendChild(userMsg);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function replyFromTutor(query) {
+      var container = document.getElementById('tutor-messages');
+      var reply = document.createElement('div');
+      reply.className = 'flex gap-2.5';
+      
+      var answer = '';
+      if (query.includes('1/2m') || query.includes('hệ số')) {
+        answer = 'Hệ số <strong>1/2m</strong> trong hàm mất mát MSE được thiết kế để khi lấy đạo hàm theo tham số θ, số mũ <strong>2</strong> triệt tiêu gọn với <strong>1/2</strong> (vì (u²)’ = 2u · u’), giúp công thức gradient đơn giản hơn nhiều!';
+      } else if (query.includes('Tóm tắt') || query.includes('ý chính')) {
+        answer = '<strong>Tóm tắt Slide ' + currentSlide + ':</strong><br>1. <em>Hypothesis</em> ánh xạ từ x sang y_pred.<br>2. <em>Cost Function</em> đo sai khác với nhãn thật.<br>3. <em>Gradient Descent</em> di chuyển ngược hướng gradient để giảm lỗi.';
+      } else if (query.includes('Active Recall') || query.includes('Luyện tập')) {
+        answer = '<strong>Thử thách nhanh:</strong> Nếu Learning Rate (α) được đặt quá lớn, điều gì sẽ xảy ra với quá trình cập nhật tham số θ? Hãy thử trả lời xem nào!';
+      } else {
+        answer = 'Tutor đã nắm được câu hỏi về <em>"' + escapeHtml(query) + '"</em> trên Slide ' + currentSlide + '. Trong bài học này, bạn hãy chú ý liên hệ công thức hàm mất mát với việc tính gradient để cập nhật trọng số nhé!';
+      }
+
+      reply.innerHTML = 
+        '<div class="h-6 w-6 rounded-full bg-blue-600 text-white flex-shrink-0 flex items-center justify-center text-[10px] font-bold">AI</div>' +
+        '<div class="tutor-bubble bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700">' +
+          answer +
+        '</div>';
+      container.appendChild(reply);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function askTutorAboutSlide() {
+      toggleSidebarTutor(true);
+      sendQuickPrompt('Giải thích chi tiết công thức hàm mất mát J(θ) trên Slide ' + currentSlide);
+    }
+
+    function highlightCurrentText() {
+      alert('Đã chọn công cụ Highlighter. Nhấp và kéo trên văn bản slide để ghi nhớ!');
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(function() {});
+      } else {
+        document.exitFullscreen().catch(function() {});
+      }
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    // Auto check hash or query on initial load
+    if (window.location.hash.includes('reader') || window.location.search.includes('reader') || window.location.search.includes('day=')) {
+      var hashParams = window.location.hash.includes('?') ? window.location.hash.split('?')[1] : '';
+      var queryParams = window.location.search.replace('?', '');
+      var params = new URLSearchParams(hashParams || queryParams);
+      var initDay = params.get('day') || 'D01';
+      var initTitle = params.get('title');
+      showView('reader', initDay, initTitle);
+    }
   </script>
   <script src="./vlearn_ready.js"></script>
 </body>
-
 </html>

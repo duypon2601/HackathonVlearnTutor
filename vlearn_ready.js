@@ -549,10 +549,12 @@
 
   window.startLesson = function () {
     closeVLearnReady();
-    if (window.location.pathname.includes('reader.html')) {
+    if (typeof window.showView === 'function') {
+      window.showView('reader', currentLessonId, currentLessonTitle);
+    } else if (window.location.pathname.includes('reader.html')) {
       alert('🚀 Bắt đầu học bài ' + (currentLessonTitle || 'Buổi 1: Day01') + '! VLearn Tutor luôn sẵn sàng hỗ trợ ở cột bên phải.');
     } else {
-      window.location.href = './reader.html?day=' + encodeURIComponent(currentLessonId) + '&title=' + encodeURIComponent(currentLessonTitle) + '&part=day-slides-material_mttis0ey_q1ua59&page=1';
+      window.location.href = './index.html#reader?day=' + encodeURIComponent(currentLessonId) + '&title=' + encodeURIComponent(currentLessonTitle);
     }
   };
 
