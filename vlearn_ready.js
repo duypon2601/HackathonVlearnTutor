@@ -24,7 +24,7 @@
                 <h2 class="text-base font-extrabold text-slate-900 dark:text-white">VLearn Ready</h2>
                 <span class="text-[10px] font-bold bg-blue-100 text-blue-700 dark:bg-sky-950 dark:text-sky-300 px-2 py-0.5 rounded-full uppercase tracking-wider">AI Readiness Check</span>
               </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400">Buổi 1: Day01 — Machine Learning Foundations</p>
+              <p id="vr-modal-subtitle" class="text-xs text-slate-500 dark:text-slate-400">Buổi 1: Day01 — Machine Learning Foundations</p>
             </div>
           </div>
 
@@ -313,15 +313,29 @@
 
   var currentStep = 1;
   var currentStatus = 'READY'; // READY, PARTIALLY, NOT_READY
+  var currentLessonId = 'D01';
+  var currentLessonTitle = 'Buổi 1: Day01 — Machine Learning Foundations';
 
-  window.openVLearnReady = function (lessonId) {
+  window.openVLearnReady = function (lessonId, lessonTitle) {
     initVLearnReadyModal();
+    if (lessonId) currentLessonId = lessonId;
+    if (lessonTitle) {
+      currentLessonTitle = lessonTitle;
+    } else if (lessonId) {
+      currentLessonTitle = 'Buổi học: ' + lessonId;
+    }
+
+    var subtitleEl = document.getElementById('vr-modal-subtitle');
+    if (subtitleEl) subtitleEl.textContent = currentLessonTitle;
+
     var modal = document.getElementById('vr-modal-backdrop');
     if (modal) {
       modal.style.display = 'flex';
       setStep(1);
     }
   };
+
+  window.openVLearnReadyDrawer = window.openVLearnReady;
 
   window.closeVLearnReady = function () {
     var modal = document.getElementById('vr-modal-backdrop');
@@ -535,11 +549,10 @@
 
   window.startLesson = function () {
     closeVLearnReady();
-    // If we are already on reader.html, just notify or scroll
     if (window.location.pathname.includes('reader.html')) {
-      alert('🚀 Bắt đầu học bài Buổi 1: Day01! VLearn Tutor luôn sẵn sàng hỗ trợ ở cột bên phải.');
+      alert('🚀 Bắt đầu học bài ' + (currentLessonTitle || 'Buổi 1: Day01') + '! VLearn Tutor luôn sẵn sàng hỗ trợ ở cột bên phải.');
     } else {
-      window.location.href = './reader.html?day=D01&part=day-slides-material_mttis0ey_q1ua59&page=1';
+      window.location.href = './reader.html?day=' + encodeURIComponent(currentLessonId) + '&title=' + encodeURIComponent(currentLessonTitle) + '&part=day-slides-material_mttis0ey_q1ua59&page=1';
     }
   };
 

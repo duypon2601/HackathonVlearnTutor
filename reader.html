@@ -368,7 +368,7 @@
         <span>/</span>
         <span class="font-medium text-slate-700 dark:text-slate-300">L3-L4 - Khóa 4 Phase 1</span>
         <span>/</span>
-        <span class="font-bold text-blue-700 dark:text-sky-300 bg-blue-50 dark:bg-sky-950/60 px-2 py-0.5 rounded border border-blue-200 dark:border-sky-800">Buổi 1: Day01</span>
+        <span id="reader-breadcrumb-title" class="font-bold text-blue-700 dark:text-sky-300 bg-blue-50 dark:bg-sky-950/60 px-2 py-0.5 rounded border border-blue-200 dark:border-sky-800">Buổi 1: Day01</span>
       </div>
     </div>
 
@@ -396,7 +396,7 @@
       </button>
 
       <!-- Trigger VLearn Ready Modal -->
-      <button type="button" onclick="openVLearnReady('D01')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-300 dark:border-amber-700 bg-amber-50 text-amber-900 dark:bg-amber-950/60 dark:text-amber-200 hover:bg-amber-100 shadow-xs transition-all" title="Kiểm tra độ sẵn sàng trước khi học">
+      <button type="button" onclick="openCurrentReady()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-300 dark:border-amber-700 bg-amber-50 text-amber-900 dark:bg-amber-950/60 dark:text-amber-200 hover:bg-amber-100 shadow-xs transition-all" title="Kiểm tra độ sẵn sàng trước khi học">
         <span>⚡ Sẵn sàng học?</span>
       </button>
 
@@ -425,10 +425,10 @@
   <div id="vr-reader-banner" class="vr-floating-banner">
     <div class="flex items-center gap-2.5 text-xs">
       <span class="px-2 py-0.5 rounded bg-blue-500/30 text-sky-300 font-bold uppercase text-[10px] tracking-wider border border-blue-400/30">VLearn Ready</span>
-      <span class="font-medium text-slate-100">💡 Trước khi học bài: Kiểm tra nhanh xem bạn đã nắm đủ kiến thức nền cho Buổi 1 chưa (2–3 phút).</span>
+      <span id="vr-reader-banner-text" class="font-medium text-slate-100">💡 Trước khi học bài: Kiểm tra nhanh xem bạn đã nắm đủ kiến thức nền cho Buổi 1 chưa (2–3 phút).</span>
     </div>
     <div class="flex items-center gap-2">
-      <button type="button" onclick="openVLearnReady('D01')" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-1.5">
+      <button type="button" onclick="openCurrentReady()" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-1.5">
         <span>⚡ Kiểm tra sẵn sàng</span>
       </button>
       <button type="button" onclick="document.getElementById('vr-reader-banner').remove()" class="text-slate-400 hover:text-white text-xs px-2 py-1 rounded transition-colors" title="Đóng thông báo">
@@ -442,15 +442,16 @@
 
     <!-- LEFT SIDEBAR: OUTLINE & THUMBNAILS -->
     <aside id="sidebar-left" class="rd-sidebar-left">
-      <!-- Tabs for Outline vs Filmstrip -->
+      <!-- Tabs for Outline vs Filmstrip vs Lessons -->
       <div class="flex border-b border-slate-200 dark:border-slate-800 p-2 gap-1 bg-slate-50 dark:bg-slate-900/50">
         <button type="button" id="tab-btn-outline" onclick="switchSidebarTab('outline')" class="flex-1 py-1.5 text-xs font-bold text-blue-700 dark:text-sky-300 bg-white dark:bg-slate-800 rounded-md shadow-xs text-center border border-slate-200 dark:border-slate-700">Mục lục</button>
         <button type="button" id="tab-btn-slides" onclick="switchSidebarTab('slides')" class="flex-1 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md text-center">Slide (42)</button>
+        <button type="button" id="tab-btn-lessons" onclick="switchSidebarTab('lessons')" class="flex-1 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md text-center">Buổi (16)</button>
       </div>
 
       <!-- Tab Content 1: Outline Tree -->
       <div id="content-outline" class="flex-1 overflow-y-auto p-3 space-y-1">
-        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2 py-1">Lộ trình Buổi 1</div>
+        <div id="outline-lesson-heading" class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2 py-1">Lộ trình Buổi 1</div>
 
         <div class="rounded-lg bg-blue-50/80 dark:bg-sky-950/40 border border-blue-200/80 dark:border-sky-800/80 p-2.5">
           <div class="flex items-center justify-between text-xs font-bold text-blue-800 dark:text-sky-200">
@@ -558,6 +559,17 @@
             <div class="text-[9px] text-slate-400 truncate">Loss Surface Visualization</div>
           </div>
           <div class="mt-1 text-[11px] text-slate-500 px-1">Slide 4 / 42</div>
+        </div>
+      </div>
+
+      <!-- Tab Content 3: All Lessons List -->
+      <div id="content-lessons" class="flex-1 overflow-y-auto p-3 space-y-2 hidden">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1 flex items-center justify-between pb-1 border-b border-slate-200 dark:border-slate-800">
+          <span>Danh sách 16 buổi học</span>
+          <span class="text-[10px] bg-blue-100 dark:bg-sky-950 text-blue-700 dark:text-sky-300 font-semibold px-2 py-0.5 rounded">Mô phỏng</span>
+        </div>
+        <div id="lessons-list-container" class="space-y-1 mt-2">
+          <!-- Populated by JavaScript -->
         </div>
       </div>
     </aside>
@@ -923,20 +935,122 @@
     function switchSidebarTab(tab) {
       var btnOutline = document.getElementById('tab-btn-outline');
       var btnSlides = document.getElementById('tab-btn-slides');
+      var btnLessons = document.getElementById('tab-btn-lessons');
       var contentOutline = document.getElementById('content-outline');
       var contentSlides = document.getElementById('content-slides');
+      var contentLessons = document.getElementById('content-lessons');
 
-      if (tab === 'outline') {
-        btnOutline.className = 'flex-1 py-1.5 text-xs font-bold text-blue-700 dark:text-sky-300 bg-white dark:bg-slate-800 rounded-md shadow-xs text-center border border-slate-200 dark:border-slate-700';
-        btnSlides.className = 'flex-1 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md text-center';
-        contentOutline.classList.remove('hidden');
-        contentSlides.classList.add('hidden');
-      } else {
-        btnSlides.className = 'flex-1 py-1.5 text-xs font-bold text-blue-700 dark:text-sky-300 bg-white dark:bg-slate-800 rounded-md shadow-xs text-center border border-slate-200 dark:border-slate-700';
-        btnOutline.className = 'flex-1 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md text-center';
-        contentSlides.classList.remove('hidden');
-        contentOutline.classList.add('hidden');
+      var activeClass = 'flex-1 py-1.5 text-xs font-bold text-blue-700 dark:text-sky-300 bg-white dark:bg-slate-800 rounded-md shadow-xs text-center border border-slate-200 dark:border-slate-700';
+      var inactiveClass = 'flex-1 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md text-center';
+
+      btnOutline.className = (tab === 'outline') ? activeClass : inactiveClass;
+      btnSlides.className = (tab === 'slides') ? activeClass : inactiveClass;
+      btnLessons.className = (tab === 'lessons') ? activeClass : inactiveClass;
+
+      contentOutline.classList.toggle('hidden', tab !== 'outline');
+      contentSlides.classList.toggle('hidden', tab !== 'slides');
+      contentLessons.classList.toggle('hidden', tab !== 'lessons');
+    }
+
+    // Dynamic Lesson List & Navigation
+    var LESSONS_LIST = [
+      { id: 'D01', title: 'Buổi 1: Day01 — Giới thiệu Khóa học & Kiến trúc AI', short: 'Buổi 1: Day01' },
+      { id: 'D02', title: 'Buổi 2: DAY02 — Docker & Containerization cho AI', short: 'Buổi 2: DAY02' },
+      { id: 'D03', title: 'Buổi 3: DAY03 — Multi-container AI Stack & Bridge', short: 'Buổi 3: DAY03' },
+      { id: 'D04', title: 'Buổi 4: DAY04 — FastAPI & Model Serving', short: 'Buổi 4: DAY04' },
+      { id: 'D05', title: 'Buổi 5: Day05 — Async Ingestion & Background Task', short: 'Buổi 5: Day05' },
+      { id: 'D06', title: 'Buổi 6: Day06 — Data Pipeline & Feature Extraction', short: 'Buổi 6: Day06' },
+      { id: 'D07', title: 'Buổi 7: Day07 — Model Evaluation & Validation', short: 'Buổi 7: Day07' },
+      { id: 'D08', title: 'Buổi 8: Day08 — Stream Processing & Kafka Architecture', short: 'Buổi 8: Day08' },
+      { id: 'D09', title: 'Buổi 9: Day09 — Real-time Feature Store & Feast', short: 'Buổi 9: Day09' },
+      { id: 'D10', title: 'Buổi 10: Day10-data-pipeline-observability', short: 'Buổi 10: Day10' },
+      { id: 'D11', title: 'Buổi 11: Day11-guardrails-ai-safety', short: 'Buổi 11: Day11' },
+      { id: 'D12', title: 'Buổi 12: Day12-cloud-services-and-deployment', short: 'Buổi 12: Day12' },
+      { id: 'D13', title: 'Buổi 13: Day13-monitoring-logging-observability', short: 'Buổi 13: Day13' },
+      { id: 'D14', title: 'Buổi 14: Day14-ai-evaluation-benchmarking', short: 'Buổi 14: Day14' },
+      { id: 'D15', title: 'Buổi 15: Day15-trien-khai-thuc-te-dinh-huong', short: 'Buổi 15: Day15' },
+      { id: 'D16', title: 'Buổi 16: MINI HACKATHON', short: 'Buổi 16: MINI HACKATHON' }
+    ];
+
+    var currentLessonId = 'D01';
+    var currentLessonTitle = 'Buổi 1: Day01';
+
+    function initLessonFromUrl() {
+      var params = new URLSearchParams(window.location.search);
+      var day = params.get('day') || 'D01';
+      var title = params.get('title');
+
+      var found = LESSONS_LIST.find(function(l) { return l.id === day; });
+      if (!title && found) {
+        title = found.title;
+      } else if (!title) {
+        title = 'Buổi học: ' + day;
       }
+
+      applyLesson(day, title);
+    }
+
+    function applyLesson(day, title) {
+      currentLessonId = day;
+      currentLessonTitle = title;
+
+      // Update document title
+      document.title = title + ' — VLearn Reader | VinUni AI Thực Chiến';
+
+      // Update breadcrumb
+      var bcrumb = document.getElementById('reader-breadcrumb-title');
+      if (bcrumb) bcrumb.textContent = title;
+
+      // Update outline heading
+      var outlineHeading = document.getElementById('outline-lesson-heading');
+      if (outlineHeading) outlineHeading.textContent = 'Lộ trình ' + title;
+
+      // Update banner text
+      var bannerText = document.getElementById('vr-reader-banner-text');
+      if (bannerText) bannerText.textContent = '💡 Trước khi học bài: Kiểm tra nhanh xem bạn đã nắm đủ kiến thức nền cho ' + title + ' chưa (2–3 phút).';
+
+      // Re-render lessons list in sidebar
+      renderLessonsList();
+    }
+
+    function switchLesson(day, title) {
+      var newUrl = window.location.pathname + '?day=' + encodeURIComponent(day) + '&title=' + encodeURIComponent(title);
+      window.history.pushState({ day: day, title: title }, '', newUrl);
+      applyLesson(day, title);
+    }
+
+    function openCurrentReady() {
+      openVLearnReady(currentLessonId, currentLessonTitle);
+    }
+
+    function renderLessonsList() {
+      var container = document.getElementById('lessons-list-container');
+      if (!container) return;
+      
+      var html = '';
+      LESSONS_LIST.forEach(function(l) {
+        var isCurrent = (l.id === currentLessonId);
+        var activeBorder = isCurrent ? 'border-blue-600 bg-blue-50/80 dark:bg-blue-950/40 text-blue-800 dark:text-sky-300 font-bold' : 'border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-300';
+        var badge = isCurrent ? '<span class="text-[9px] bg-blue-600 text-white px-1.5 py-0.5 rounded font-bold shrink-0">Đang xem</span>' : '<span class="text-[9px] text-slate-400 shrink-0">Xem bài</span>';
+
+        html += 
+          '<div onclick="switchLesson(\'' + l.id + '\', \'' + escapeHtml(l.title) + '\')" class="flex items-center justify-between p-2 rounded-lg border ' + activeBorder + ' cursor-pointer transition-all text-xs">' +
+            '<div class="flex items-center gap-2 truncate min-w-0 pr-2">' +
+              '<span class="w-1.5 h-1.5 rounded-full ' + (isCurrent ? 'bg-blue-600' : 'bg-slate-400') + ' shrink-0"></span>' +
+              '<span class="truncate">' + escapeHtml(l.title) + '</span>' +
+            '</div>' +
+            badge +
+          '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    // Auto initialize lesson state on load
+    document.addEventListener('DOMContentLoaded', function() {
+      initLessonFromUrl();
+    });
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+      initLessonFromUrl();
     }
 
     // Theme toggle
